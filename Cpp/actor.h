@@ -2,6 +2,7 @@
 #define ARCUS_ACTOR_H
 
 #include <string>
+
 #include "environment.h"
 
 namespace arcus {
@@ -10,7 +11,7 @@ namespace arcus {
 		const std::string type() const;
 		const std::string name() const;
 		void action();
-		bool go(arcus::direction_t direction);
+		bool go(direction_t);
 		void talk_to(Actor other) const;
 	};
 
