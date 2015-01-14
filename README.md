@@ -1,2 +1,2 @@
-# C-TextGame
-C++ text based adventure game
+# Arcus
+A text based adventure game, written in C++.
