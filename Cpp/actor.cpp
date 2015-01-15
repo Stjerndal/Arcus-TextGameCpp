@@ -1,11 +1,30 @@
 #include <string>
+#include <iostream>
+
+#include "actor.h"
+#include "dialog.h"
 
 namespace arcus {
-private:
-	std::string type;
+
+	/*std::string type;
 	std::string name;
 	int attitude;
-public:
+	std::vector<Dialog> dialogs;*/
+
+
+	Actor::Actor(const std::string _type, const std::string _name, const int _attitude)
+	: type(_type)
+	, name(_name)
+	, attitude(_attitude)
+	{}
+
+	Actor::Actor(const std::string _type, const std::string _name, const int _attitude, const std::vector<Dialog> _dialogs)
+	: type(_type)
+	, name(_name)
+	, attitude(_attitude)
+	, dialogs(_dialogs)
+	{}
+
 	const std::string Actor::getType() const {
 		return type;
 	}
@@ -14,31 +33,34 @@ public:
 		return name;
 	}
 
-	const std::string Actor::getAttitude() const {
+	const int Actor::getAttitude() const {
 		return attitude;
 	}
 
-	void Actor::setType(std::string type) {
-		this->type = type;
+	void Actor::setType(std::string _type) {
+		type = _type;
 	}
 
-	void Actor::setName(std::string name) {
-		this->name = name;
+	void Actor::setName(std::string _name) {
+		name = _name;
 	}
 
-	void Actor::setAttitude(int attitude) {
-		this->attitude = attitude;
+	void Actor::setAttitude(int _attitude) {
+		attitude = _attitude;
 	}
 
 	void Actor::action() {
+		std::cout << "Actor.action()" << std::endl;
 		//TODO
 	}
 
 	void Actor::go(Direction_t direction) {
+		std::cout << "Actor.go()" << std::endl;
 		//TODO
 	}
 
 	void Actor::talk_to(Actor other) const{
+		std::cout << "Actor.talk_to()" << std::endl;
 		//TODO
 	}
 
