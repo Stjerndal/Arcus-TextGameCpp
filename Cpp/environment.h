@@ -1,8 +1,9 @@
-#ifndef ARCUS_ENVI_H
-#define ARCUS_ENVI_H
+#ifndef ARCUS_ENVIRONMENT_H
+#define ARCUS_ENVIRONMENT_H
 
 #include <string>
 #include <vector>
+#include <map>
 
 namespace arcus {
 	class Actor;
@@ -21,6 +22,11 @@ namespace arcus {
 		void pick_up(Item);
 		void drop(Item);
 		virtual void affect(Actor actor);
+	private:
+		std::string description;
+		std::vector<Direction_t> directions;
+		std::map<Direction_t, Environment> neighbors;
+		std::vector<Item> items;
 	};
 
 

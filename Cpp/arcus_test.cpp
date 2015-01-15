@@ -14,7 +14,13 @@
 #include "earthspirit.h"
 #include "item.h"
 #include "weapon.h"
-//#include "technology.h"
+#include "technology.h"
+#include "onoffswitch.h"
+#include "container.h"
+#include "door.h"
+#include "onoffitem.h"
+#include "indoor.h"
+#include "outdoor.h"
 
 int main() {
 	std::cout << "flerp" << std::endl;
