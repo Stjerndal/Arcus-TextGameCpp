@@ -51,13 +51,18 @@ int main() {
 	bag.remove(key);
 	std::cout << bag.getHold_weight() << "kg, " << bag.getCur_weight() << "kg, " << std::endl;
 
-	std::vector<arcus::Direction_t> directions = {arcus::UP, arcus::RIGHT, arcus::LEFT, arcus::DOWN};
+	//std::vector<arcus::Direction_t> directions = {arcus::UP, arcus::RIGHT, arcus::LEFT, arcus::DOWN};
 	arcus::Environment desert("A desert");
 
 	arcus::Environment forest("A forest");
-	forest.addNeighbor(desert, arcus::UP);
-	forest.openDirection(arcus::UP);
-	std::cout << forest.getDescription() << ", UP: " << forest.getNeighbor(arcus::UP).getDescription() << std::endl;
+	forest.addNeighbor(desert, arcus::NORTH);
+	forest.openDirection(arcus::NORTH);
+	std::cout << forest.getDescription() << ", NORTH: " << forest.getNeighbor(arcus::NORTH).getDescription() << std::endl;
+
+	arcus::Indoor cave("A dark cave", 3);
+	forest.addNeighbor(cave, arcus::EAST);
+	forest.openDirection(arcus::EAST);
+	std::cout << forest.getDescription() << ", EAST: " << forest.getNeighbor(arcus::EAST).getDescription() << std::endl;
 
 	return 0;
 }
