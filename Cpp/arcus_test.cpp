@@ -52,7 +52,7 @@ int main() {
 	std::cout << bag.getHold_weight() << "kg, " << bag.getCur_weight() << "kg, " << std::endl;
 
 	//std::vector<arcus::Direction_t> directions = {arcus::UP, arcus::RIGHT, arcus::LEFT, arcus::DOWN};
-	arcus::Environment desert("A desert");
+	arcus::Outdoor desert("A desert", arcus::SUNNY, "Blue");
 
 	arcus::Environment forest("A forest");
 	forest.addNeighbor(desert, arcus::NORTH);
