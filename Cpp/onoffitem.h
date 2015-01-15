@@ -11,7 +11,7 @@ namespace arcus {
 
 		virtual void setState(const bool);
 
-		virtual void toggle() = 0;
+		virtual void toggle();
 
 	private:
 		bool state;
