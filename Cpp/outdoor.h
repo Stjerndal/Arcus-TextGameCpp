@@ -3,12 +3,16 @@
 
 #include <vector>
 
+#include "environment.h"
+
 namespace arcus {
 
 	enum Weather_t {SUNNY, RAINY, SNOWY};
 
 	class Outdoor: public Environment {
 	public:
+		Outdoor(const std::string description, const Weather_t, const std::string skyColor);
+
 		const Weather_t getWeather() const;
 		const std::string getSkyColor() const;
 
