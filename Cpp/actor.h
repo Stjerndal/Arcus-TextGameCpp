@@ -8,11 +8,22 @@
 namespace arcus {
 	class Actor {
 	public:
-		const std::string type() const;
-		const std::string name() const;
-		void action();
-		bool go(direction_t);
-		void talk_to(Actor other) const;
+		const std::string getType() const;
+		const std::string getName() const;
+		const std::string getAttitude() const;
+
+		void setType(std::string);
+		void setName(std::string);
+		void setAttitude(int);
+
+		virtual void action();
+		bool go(Direction_t);
+		virtual void talk_to(Actor) const;
+
+	private:
+		std::string type;
+		std::string name;
+		int attitude;
 	};
 
 
