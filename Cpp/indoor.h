@@ -3,10 +3,14 @@
 
 #include <vector>
 
+#include "environment.h"
+
 namespace arcus {
 	class Item;
 	class Indoor: public Environment {
 	public:
+		Indoor(const std::string _description, const int ceiling_height);
+
 		const std::vector<Item> getWalls() const;
 		const int getCeiling_height() const;
 
