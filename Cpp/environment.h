@@ -5,13 +5,12 @@
 #include <vector>
 #include <map>
 
-//#include "actor.h"
+#include "actor.h"
 #include "item.h"
+#include "directions.hpp"
 
 namespace arcus {
 	class Actor;
-	//enum Direction_t {UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT};
-	enum Direction_t {NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST};
 
 	class Environment {
 	public:
@@ -24,6 +23,8 @@ namespace arcus {
 
 		const std::vector<Direction_t> getDirections() const;
 		Environment getNeighbor(Direction_t);
+		std::vector<Actor> getNpcs() const;
+		std::string getStatus();
 		
 		const std::string getDescription() const;
 		void enter(Actor&);
@@ -33,6 +34,8 @@ namespace arcus {
 		void drop(Item);
 		void openDirection(Direction_t);
 		void addNeighbor(Environment, Direction_t);
+		void addNpc(Actor);
+
 		virtual void affect(Actor&);
 		const std::vector<Item>::iterator iteratorOf(const Item);
 	private:
@@ -40,6 +43,8 @@ namespace arcus {
 		std::vector<Direction_t> directions;
 		std::map<Direction_t, Environment> neighbors;
 		std::vector<Item> items;
+		std::vector<Actor> npcs;
+		std::string status;
 	};
 
 

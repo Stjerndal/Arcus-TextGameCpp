@@ -16,6 +16,7 @@ namespace arcus {
 	: type(_type)
 	, name(_name)
 	, attitude(_attitude)
+	, status()
 	{}
 
 	Actor::Actor(const std::string _type, const std::string _name, const int _attitude, const std::vector<Dialog> _dialogs)
@@ -23,6 +24,7 @@ namespace arcus {
 	, name(_name)
 	, attitude(_attitude)
 	, dialogs(_dialogs)
+	, status()
 	{}
 
 	const std::string Actor::getType() const {
@@ -35,6 +37,12 @@ namespace arcus {
 
 	const int Actor::getAttitude() const {
 		return attitude;
+	}
+
+	std::string Actor::getStatus() {
+		std::string oldStatus = status;
+		status = "";
+		return oldStatus;
 	}
 
 	void Actor::setType(std::string _type) {

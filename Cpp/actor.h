@@ -2,11 +2,13 @@
 #define ARCUS_ACTOR_H
 
 #include <string>
+#include <vector>
 
-#include "environment.h"
+#include "directions.hpp"
+#include "dialog.h"
 
 namespace arcus {
-	class Dialog;
+	//class Dialog;
 	class Actor {
 	public:
 		Actor(const std::string type, const std::string name, const int attitude);
@@ -15,6 +17,7 @@ namespace arcus {
 		const std::string getType() const;
 		const std::string getName() const;
 		const int getAttitude() const;
+		std::string getStatus();
 
 		void setType(std::string);
 		void setName(std::string);
@@ -29,6 +32,7 @@ namespace arcus {
 		std::string name;
 		int attitude;
 		std::vector<Dialog> dialogs;
+		std::string status;
 	};
 
 

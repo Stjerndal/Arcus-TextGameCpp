@@ -22,6 +22,7 @@ namespace arcus {
 		const std::string getColor() const;
 		const std::string getDescription() const;
 		const int getHp() const;
+		std::string getStatus();
 
 		void setName(std::string);
 		void setHp(int);
@@ -34,6 +35,7 @@ namespace arcus {
 		std::string color;
 		std::string description;
 		int hp;
+		std::string status;
 	};
 
 }
