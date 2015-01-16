@@ -4,19 +4,22 @@
 #include <vector>
 #include <string>
 
+#include "actor.h"
+#include "environment.h"
 
 namespace arcus {
 
-	class Actor;
-	class Environment;
 	class World {
 
 	public:
-		static std::string present(const std::string msg);
-	
+		World();
 
+		std::string present(const std::string msg);
+
+		Environment setupWorld();
+
+	
 	private:
-		std::vector<Actor> npcs;
 		Actor player;
 		Environment curEnvironment;
 	};
