@@ -44,7 +44,7 @@ namespace arcus {
 	{}
 
 	Environment::Environment(const std::string _description, const std::vector<Direction_t> _directions,
-		const std::map<Direction_t, Environment> _neighbors, const std::vector<Item> _items)
+		const std::map<Direction_t, Environment*> _neighbors, const std::vector<Item> _items)
 	: description(_description)
 	, directions(_directions)
 	, neighbors(_neighbors)
@@ -57,7 +57,7 @@ namespace arcus {
 		return directions;
 	}
 
-	Environment Environment::getNeighbor(Direction_t _direction){
+	Environment* Environment::getNeighbor(Direction_t _direction){
 		return neighbors[_direction];
 	}
 	
@@ -97,18 +97,46 @@ namespace arcus {
 	}
 
 	void Environment::openDirection(Direction_t direction) {
-		std::cout << "Environment.openDirection()" << std::endl;
+		//std::cout << description << ".openDirection(" << convertDir(direction) << ")" << std::endl;
 		directions.push_back(direction);
 	}
 
-	void Environment::addNeighbor(Environment neighbor, Direction_t direction) {
-		std::cout << "Environment.addNeighbor()" << std::endl;
+	void Environment::addNeighbor(Environment* neighbor, Direction_t direction) {
+		//std::cout << description << ".addNeighbor(" << neighbor.getDescription() << ", " << convertDir(direction) << ")" << std::endl;
 		neighbors.emplace(direction, neighbor);
 	}
 
 	void Environment::addNpc(Actor npc) {
-		std::cout << "Environment.addNpc(" << npc.getName() << ")" << std::endl;
+		//std::cout << "Environment.addNpc(" << npc.getName() << ")" << std::endl;
 		npcs.push_back(npc);
+	}
+
+	bool Environment::isDirectionOpen(Direction_t direction) const {
+		for(auto it = directions.begin(); it != directions.end(); ++it) {
+			if(*it == direction)
+				return true;
+		}
+		return false;
+	}
+
+	std::string Environment::present() const {
+		std::string presentation;
+		presentation.append(description);
+
+		presentation.append("\nOpen directions: ");
+		for(auto it = directions.begin(); it != directions.end(); ++it) {
+			presentation.append(convertDir(*it)).append(" ");
+		}
+
+		presentation.append("\nYou see:");
+		for(auto it = items.begin(); it != items.end(); ++it) {
+			presentation.append(" ITEM: ").append((*it).getName());
+		}
+		for(auto it = npcs.begin(); it != npcs.end(); ++it) {
+			presentation.append(" CREATURE: ").append((*it).getType());
+		}
+
+		return presentation;
 	}
 	
 	void Environment::affect(Actor& actor) {
