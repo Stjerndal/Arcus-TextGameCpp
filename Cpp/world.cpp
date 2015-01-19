@@ -25,43 +25,76 @@ namespace arcus {
 		//curEnvironment = setupWorld();
 	}
 
+	World::~World() //destructor
+	{
+    	for (auto it = envs.begin(); it != envs.end(); ++it){
+		    delete *it;
+		}
+		envs.clear();
+		delete curEnvironment;
+	};
+
+	/** Copy Constructor */
+    World::World(const World& other) 
+    : envs(other.envs.size())
+    , curEnvironment(other.curEnvironment)
+    , player(other.player)
+    {
+    	for (std::size_t i = 0; i < other.envs.size(); ++i) 
+        	envs[i] = new Environment(*other.envs[i]);
+    }
+
+    /** Copy Assignment Operator */
+    World& World::operator= (const World& other)
+    {
+    	/*
+        if(this != &other) {
+    		std::vector<Environment*> tmpVec= new std::vector<Environment*>(other.envs.size());
+    		std::copy(other.envs.begin(), other.envs.end(), tmpVec);
+    		delete other;
+    		envs = tmpVec;
+        }*/
+
+    	std::swap(envs, other.envs); //reusing copy-constructor and destructor
+    	std::swap(curEnvironment, other.curEnvironment);
+    	std::swap(player, other.player);
+
+        return *this;
+    }
 	
 
 	void World::start() {
 		curEnvironment = setupWorld();
-		envs[0].getDescription();
 		while(1)
 			update();
 	}
 
 	void World::update() {
+		UserInterface::present("--------------------------\n");
 		UserInterface::present(present());
-		UserInterface::present("What do you do?");
+		UserInterface::present("\n--------------------------");
+		UserInterface::present("What do you do?\n>> ");
+
 		std::vector<std::string> input;
 		input = UserInterface::fetchInput();
 		handleInput(input);
 	}
 
 	std::string World::present() const{
-		//std::cerr << "ptr: " << envs[0] << std::endl;
-		//std::cerr << "ptr: " << envs[1] << std::endl;
-		//envs[0]->present();
-		std::cerr << "ok1" << std::endl;
 		return curEnvironment->present();
 	}
 
 	bool World::handleInput(const std::vector<std::string>& input) {
-		//UserInterface::present(envs[0]->present());
-		//UserInterface::present(envs[1]->present());
-		//UserInterface::present(envs[2]->present());
-		//std::cout << "Handling 0: " << input[0] << ", 1: " << input[1] << std::endl;
 		if (input[0].compare(0,2,"go") == 0) {
 			Direction_t dir = convertDir(input[1]);
-			if(dir != INVALID && curEnvironment->isDirectionOpen(dir))
+			if(dir != INVALID && curEnvironment->isDirectionOpen(dir)) {
 				player.go(dir);
 				curEnvironment = curEnvironment->getNeighbor(dir);
 				return true;
+			}
 		}
+
+		return false;
 	}
 
 
@@ -131,87 +164,89 @@ namespace arcus {
 		Corporeal yeti("Yeti", "James", 40, yetiDialogs, "Blue", 70, 50, 40, 250);
 
 
-		Outdoor forest1("A dark and gloomy forest.", SUNNY, "Dark Blue");
-		forest1.addItem(berries);
+		Outdoor* forest1 = new Outdoor("A dark and gloomy forest.", SUNNY, "Dark Blue");
+		forest1->addItem(berries);
 
-		Outdoor forest2("The forest here is actually pretty dark.", RAINY, "Black");
-		forest2.addNpc(bear);
+		Outdoor* forest2 = new Outdoor("The forest here is actually pretty dark.", RAINY, "Black");
+		forest2->addNpc(bear);
 
-		Outdoor glade("A glade in the forest, this area is cleared of trees. To the east you see a tunnel.", SUNNY, "Dark Blue");
-		glade.addItem(stone);
-		glade.addNpc(orbis);
+		Outdoor* glade = new Outdoor("A glade in the forest, this area is cleared of trees. To the east you see a tunnel.", SUNNY, "Dark Blue");
+		glade->addItem(stone);
+		glade->addNpc(orbis);
 
-		Outdoor fields1("Vast grass fields. To the west you see the forest.", SUNNY, "Blue");
+		Outdoor* fields1 = new Outdoor("Vast grass fields. To the west you see the forest.", SUNNY, "Blue");
 
-		Outdoor fields2("Vast grass fields. To the south you see a tunnel", SUNNY, "Blue");
-		fields2.addNpc(elephant);
+		Outdoor* fields2 = new Outdoor("Vast grass fields. To the south you see a tunnel", SUNNY, "Blue");
+		fields2->addNpc(elephant);
 
-		Indoor tunnel("A dark tunnel.", 3);
-		tunnel.addNpc(robot);
+		Indoor* tunnel = new Indoor("A dark tunnel.", 3);
+		tunnel->addNpc(robot);
 
-		Outdoor mountain("Mountains surround you. To the south is you see an opening to a cave.", SNOWY, "White");
-		mountain.addNpc(yeti);
+		Outdoor* mountain = new Outdoor("Mountains surround you. To the south is you see an opening to a cave.", SNOWY, "White");
+		mountain->addNpc(yeti);
 
-		Indoor cave("A small cave", 5);
-		cave.addItem(fuelCell);
+		Indoor* cave = new Indoor("A small cave", 5);
+		cave->addItem(fuelCell);
 
 
+		//Outdoor* forest1p = &forest1;
 
-		Outdoor* forest1p = &forest1;
-		Outdoor* forest2p = &forest2;
+		//Outdoor* test = new Outdoor("hej", SUNNY, "dig");
+
+		/*Outdoor* forest2p = &forest2;
 		Outdoor* fields1p = &fields1;
 		Outdoor* fields2p = &fields2;
 		Outdoor* gladep = &glade;
 		Indoor* tunnelp = &tunnel;
 		Outdoor* mountainp = &mountain;
-		Indoor* cavep = &cave;
+		Indoor* cavep = &cave;*/
 
-		forest1.addNeighbor(fields1p, EAST);
-		forest1.openDirection(EAST);
-		forest1.addNeighbor(forest2p, SOUTH);
-		forest1.openDirection(SOUTH);
+		forest1->addNeighbor(fields1, EAST);
+		forest1->openDirection(EAST);
+		forest1->addNeighbor(forest2, SOUTH);
+		forest1->openDirection(SOUTH);
 
-		forest2.addNeighbor(forest1p, NORTH);
-		forest2.openDirection(NORTH);
-		forest2.addNeighbor(fields2p, EAST);
-		forest2.openDirection(EAST);
-		forest2.addNeighbor(gladep, SOUTH);
-		forest2.openDirection(SOUTH);
+		forest2->addNeighbor(forest1, NORTH);
+		forest2->openDirection(NORTH);
+		forest2->addNeighbor(fields2, EAST);
+		forest2->openDirection(EAST);
+		forest2->addNeighbor(glade, SOUTH);
+		forest2->openDirection(SOUTH);
 
-		fields1.addNeighbor(forest1p, WEST);
-		fields1.openDirection(WEST);
-		fields1.addNeighbor(fields2p, SOUTH_EAST);
-		fields1.openDirection(SOUTH_EAST);
+		fields1->addNeighbor(forest1, WEST);
+		fields1->openDirection(WEST);
+		fields1->addNeighbor(fields2, SOUTH_EAST);
+		fields1->openDirection(SOUTH_EAST);
 
-		fields2.addNeighbor(fields1p, NORTH_WEST);
-		fields2.openDirection(NORTH_WEST);
-		fields2.addNeighbor(forest2p, WEST);
-		fields2.openDirection(WEST);
-		fields2.addNeighbor(tunnelp, SOUTH);
-		fields2.openDirection(SOUTH);
+		fields2->addNeighbor(fields1, NORTH_WEST);
+		fields2->openDirection(NORTH_WEST);
+		fields2->addNeighbor(forest2, WEST);
+		fields2->openDirection(WEST);
+		fields2->addNeighbor(tunnel, SOUTH);
+		fields2->openDirection(SOUTH);
 
-		glade.addNeighbor(forest2p, NORTH);
-		glade.openDirection(NORTH);
-		glade.addNeighbor(tunnelp, EAST);
-		glade.openDirection(EAST);
-		glade.addNeighbor(mountainp, SOUTH_EAST);
-		glade.openDirection(SOUTH_EAST);
+		glade->addNeighbor(forest2, NORTH);
+		glade->openDirection(NORTH);
+		glade->addNeighbor(tunnel, EAST);
+		glade->openDirection(EAST);
+		glade->addNeighbor(mountain, SOUTH_EAST);
+		glade->openDirection(SOUTH_EAST);
 
-		tunnel.addNeighbor(fields2p, NORTH);
-		tunnel.openDirection(NORTH);
-		tunnel.addNeighbor(gladep, WEST);
-		tunnel.openDirection(WEST);
-		tunnel.addNeighbor(mountainp, SOUTH_WEST);
-		tunnel.openDirection(SOUTH_WEST);
+		tunnel->addNeighbor(fields2, NORTH);
+		tunnel->openDirection(NORTH);
+		tunnel->addNeighbor(glade, WEST);
+		tunnel->openDirection(WEST);
+		tunnel->addNeighbor(mountain, SOUTH_WEST);
+		tunnel->openDirection(SOUTH_WEST);
 
-		mountain.addNeighbor(gladep, NORTH_WEST);
-		mountain.openDirection(NORTH_WEST);
-		mountain.addNeighbor(tunnelp, NORTH_EAST);
-		mountain.openDirection(NORTH_EAST);
-		mountain.addNeighbor(cavep, SOUTH);
+		mountain->addNeighbor(glade, NORTH_WEST);
+		mountain->openDirection(NORTH_WEST);
+		mountain->addNeighbor(tunnel, NORTH_EAST);
+		mountain->openDirection(NORTH_EAST);
+		mountain->addNeighbor(cave, SOUTH);
 
-		cave.addNeighbor(mountainp, NORTH);
-		cave.openDirection(NORTH);
+		cave->addNeighbor(mountain, NORTH);
+		cave->openDirection(NORTH);
 
 		envs.push_back(forest1);
 		envs.push_back(forest2);
@@ -222,10 +257,11 @@ namespace arcus {
 		envs.push_back(mountain);
 		envs.push_back(cave);
 
-		forest1p->present();
-		std::cerr << "ok0" << std::endl;
+		//forest1p->present();
+		//std::cerr << "ok0" << std::endl;
 
-		return forest1p;
+		return forest1;
+		//return test;
 	}
 
 	

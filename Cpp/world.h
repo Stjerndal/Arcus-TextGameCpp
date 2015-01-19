@@ -14,6 +14,12 @@ namespace arcus {
 	public:
 		World();
 
+		~World();
+
+		World (const World& other); //copy constructor
+
+		World& operator= (const World& other); //copy assignment operator
+
 		void start();
 
 		void update();
@@ -30,7 +36,7 @@ namespace arcus {
 	private:
 		Actor player;
 		Environment* curEnvironment;
-		std::vector<Environment> envs;
+		std::vector<Environment*> envs;
 	};
 	
 }

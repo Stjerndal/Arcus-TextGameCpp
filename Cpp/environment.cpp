@@ -119,15 +119,14 @@ namespace arcus {
 		return false;
 	}
 
+	
 	std::string Environment::present() const {
 		std::string presentation;
 		presentation.append(description);
-
 		presentation.append("\nOpen directions: ");
 		for(auto it = directions.begin(); it != directions.end(); ++it) {
 			presentation.append(convertDir(*it)).append(" ");
 		}
-
 		presentation.append("\nYou see:");
 		for(auto it = items.begin(); it != items.end(); ++it) {
 			presentation.append(" ITEM: ").append((*it).getName());

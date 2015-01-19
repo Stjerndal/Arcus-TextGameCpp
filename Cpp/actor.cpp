@@ -11,6 +11,12 @@ namespace arcus {
 	int attitude;
 	std::vector<Dialog> dialogs;*/
 
+	Actor::Actor()
+	: type()
+	, name()
+	, attitude()
+	, status()
+	{}
 
 	Actor::Actor(const std::string _type, const std::string _name, const int _attitude)
 	: type(_type)

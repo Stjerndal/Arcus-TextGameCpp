@@ -11,6 +11,7 @@ namespace arcus {
 	//class Dialog;
 	class Actor {
 	public:
+		Actor();
 		Actor(const std::string type, const std::string name, const int attitude);
 		Actor(const std::string type, const std::string name, const int attitude, const std::vector<Dialog>);
 
