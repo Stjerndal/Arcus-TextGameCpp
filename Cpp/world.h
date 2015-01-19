@@ -14,14 +14,23 @@ namespace arcus {
 	public:
 		World();
 
-		std::string present(const std::string msg);
+		void start();
 
-		Environment setupWorld();
+		void update();
+
+		std::string present() const;
+
+		bool handleInput(const std::vector<std::string>&);
+
+		Environment* setupWorld();
+
+
 
 	
 	private:
 		Actor player;
-		Environment curEnvironment;
+		Environment* curEnvironment;
+		std::vector<Environment> envs;
 	};
 	
 }

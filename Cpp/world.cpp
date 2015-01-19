@@ -22,29 +22,50 @@ namespace arcus {
 	: player("Human", "Marcus", 30)
 	, envs()
 	{
+		//curEnvironment = setupWorld();
+	}
+
+	
+
+	void World::start() {
 		curEnvironment = setupWorld();
+		envs[0].getDescription();
+		while(1)
+			update();
+	}
+
+	void World::update() {
+		UserInterface::present(present());
+		UserInterface::present("What do you do?");
+		std::vector<std::string> input;
+		input = UserInterface::fetchInput();
+		handleInput(input);
 	}
 
 	std::string World::present() const{
-		return curEnvironment.present();
+		//std::cerr << "ptr: " << envs[0] << std::endl;
+		//std::cerr << "ptr: " << envs[1] << std::endl;
+		//envs[0]->present();
+		std::cerr << "ok1" << std::endl;
+		return curEnvironment->present();
 	}
 
 	bool World::handleInput(const std::vector<std::string>& input) {
-		UserInterface::present(envs[0].present());
-		UserInterface::present(envs[1].present());
-		UserInterface::present(envs[2].present());
+		//UserInterface::present(envs[0]->present());
+		//UserInterface::present(envs[1]->present());
+		//UserInterface::present(envs[2]->present());
 		//std::cout << "Handling 0: " << input[0] << ", 1: " << input[1] << std::endl;
 		if (input[0].compare(0,2,"go") == 0) {
 			Direction_t dir = convertDir(input[1]);
-			if(dir != INVALID && curEnvironment.isDirectionOpen(dir))
+			if(dir != INVALID && curEnvironment->isDirectionOpen(dir))
 				player.go(dir);
-				curEnvironment = curEnvironment.getNeighbor(dir);
+				curEnvironment = curEnvironment->getNeighbor(dir);
 				return true;
 		}
 	}
 
 
-	Environment World::setupWorld() {
+	Environment* World::setupWorld() {
 		Item fuelCell("Fuel Cells", 100, 5, 42000, "Black", "Fuel cells needed for hyperspace travel.");
 		Item berries("Blueberries", 1, 1, 10, "Blue", "Small edible berries.");
 		Item stone("Stone", 70, 4, 3, "Grey", "A small stone.");
@@ -111,7 +132,6 @@ namespace arcus {
 
 
 		Outdoor forest1("A dark and gloomy forest.", SUNNY, "Dark Blue");
-		//Outdoor* forest1p = &forest1;
 		forest1.addItem(berries);
 
 		Outdoor forest2("The forest here is actually pretty dark.", RAINY, "Black");
@@ -135,51 +155,62 @@ namespace arcus {
 		Indoor cave("A small cave", 5);
 		cave.addItem(fuelCell);
 
-		forest1.addNeighbor(fields1, EAST);
+
+
+		Outdoor* forest1p = &forest1;
+		Outdoor* forest2p = &forest2;
+		Outdoor* fields1p = &fields1;
+		Outdoor* fields2p = &fields2;
+		Outdoor* gladep = &glade;
+		Indoor* tunnelp = &tunnel;
+		Outdoor* mountainp = &mountain;
+		Indoor* cavep = &cave;
+
+		forest1.addNeighbor(fields1p, EAST);
 		forest1.openDirection(EAST);
-		forest1.addNeighbor(forest2, SOUTH);
+		forest1.addNeighbor(forest2p, SOUTH);
 		forest1.openDirection(SOUTH);
 
-		forest2.addNeighbor(forest1, NORTH);
+		forest2.addNeighbor(forest1p, NORTH);
 		forest2.openDirection(NORTH);
-		forest2.addNeighbor(fields2, EAST);
+		forest2.addNeighbor(fields2p, EAST);
 		forest2.openDirection(EAST);
-		forest2.addNeighbor(glade, SOUTH);
+		forest2.addNeighbor(gladep, SOUTH);
 		forest2.openDirection(SOUTH);
 
-		fields1.addNeighbor(forest1, WEST);
+		fields1.addNeighbor(forest1p, WEST);
 		fields1.openDirection(WEST);
-		fields1.addNeighbor(fields2, SOUTH_EAST);
+		fields1.addNeighbor(fields2p, SOUTH_EAST);
 		fields1.openDirection(SOUTH_EAST);
 
-		fields2.addNeighbor(fields1, NORTH_WEST);
+		fields2.addNeighbor(fields1p, NORTH_WEST);
 		fields2.openDirection(NORTH_WEST);
-		fields2.addNeighbor(forest2, WEST);
+		fields2.addNeighbor(forest2p, WEST);
 		fields2.openDirection(WEST);
-		fields2.addNeighbor(tunnel, SOUTH);
+		fields2.addNeighbor(tunnelp, SOUTH);
 		fields2.openDirection(SOUTH);
 
-		glade.addNeighbor(forest2, NORTH);
+		glade.addNeighbor(forest2p, NORTH);
 		glade.openDirection(NORTH);
-		glade.addNeighbor(tunnel, EAST);
+		glade.addNeighbor(tunnelp, EAST);
 		glade.openDirection(EAST);
-		glade.addNeighbor(mountain, SOUTH_EAST);
+		glade.addNeighbor(mountainp, SOUTH_EAST);
 		glade.openDirection(SOUTH_EAST);
 
-		tunnel.addNeighbor(fields2, NORTH);
+		tunnel.addNeighbor(fields2p, NORTH);
 		tunnel.openDirection(NORTH);
-		tunnel.addNeighbor(glade, WEST);
+		tunnel.addNeighbor(gladep, WEST);
 		tunnel.openDirection(WEST);
-		tunnel.addNeighbor(mountain, SOUTH_WEST);
+		tunnel.addNeighbor(mountainp, SOUTH_WEST);
 		tunnel.openDirection(SOUTH_WEST);
 
-		mountain.addNeighbor(glade, NORTH_WEST);
+		mountain.addNeighbor(gladep, NORTH_WEST);
 		mountain.openDirection(NORTH_WEST);
-		mountain.addNeighbor(tunnel, NORTH_EAST);
+		mountain.addNeighbor(tunnelp, NORTH_EAST);
 		mountain.openDirection(NORTH_EAST);
-		mountain.addNeighbor(cave, SOUTH);
+		mountain.addNeighbor(cavep, SOUTH);
 
-		cave.addNeighbor(mountain, NORTH);
+		cave.addNeighbor(mountainp, NORTH);
 		cave.openDirection(NORTH);
 
 		envs.push_back(forest1);
@@ -191,7 +222,10 @@ namespace arcus {
 		envs.push_back(mountain);
 		envs.push_back(cave);
 
-		return forest1;
+		forest1p->present();
+		std::cerr << "ok0" << std::endl;
+
+		return forest1p;
 	}
 
 	
