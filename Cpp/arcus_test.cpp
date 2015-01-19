@@ -1,3 +1,4 @@
+/*
 #include <string>
 #include <iostream>
 #include <algorithm>
@@ -8,7 +9,7 @@
 #include "environment.h"
 #include "corporeal.h"
 #include "humanoid.h"
-/*#include "human.h"
+#include "human.h"
 #include "orbis.h"
 #include "robot.h"
 #include "monster.h"
@@ -65,4 +66,6 @@ int main() {
 	std::cout << forest.getDescription() << ", EAST: " << forest.getNeighbor(arcus::EAST).getDescription() << std::endl;
 
 	return 0;
-}*/
+}
+
+*/

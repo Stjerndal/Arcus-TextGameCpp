@@ -1,5 +1,5 @@
-#ifndef ARCUS_UI
-#define ARCUS_UI
+#ifndef ARCUS_WORLD
+#define ARCUS_WORLD
 
 #include <vector>
 #include <string>

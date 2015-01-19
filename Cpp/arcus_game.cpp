@@ -1,6 +1,7 @@
 #include <string>
 
 #include "userinterface.hpp"
+#include "world.h"
 
 std::string msg = "Derpa lingonflerpa...";
 
@@ -13,6 +14,7 @@ void update() {
 }
 
 int main() {
+	arcus::World world();
 
 	while(1)
 		update();
