@@ -1,5 +1,6 @@
-
+#include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include "world.h"
@@ -9,6 +10,8 @@
 #include "outdoor.h"
 #include "indoor.h"
 #include "dialog.h"
+#include "directions.hpp"
+#include "userinterface.h"
 
 namespace arcus {
 	/*
@@ -17,13 +20,29 @@ namespace arcus {
 
 	World::World() 
 	: player("Human", "Marcus", 30)
+	, envs()
 	{
-		setupWorld();
+		curEnvironment = setupWorld();
 	}
 
-	std::string World::present(const std::string msg) {
-		return "WORLD PRESENTATION";
+	std::string World::present() const{
+		return curEnvironment.present();
 	}
+
+	bool World::handleInput(const std::vector<std::string>& input) {
+		UserInterface::present(envs[0].present());
+		UserInterface::present(envs[1].present());
+		UserInterface::present(envs[2].present());
+		//std::cout << "Handling 0: " << input[0] << ", 1: " << input[1] << std::endl;
+		if (input[0].compare(0,2,"go") == 0) {
+			Direction_t dir = convertDir(input[1]);
+			if(dir != INVALID && curEnvironment.isDirectionOpen(dir))
+				player.go(dir);
+				curEnvironment = curEnvironment.getNeighbor(dir);
+				return true;
+		}
+	}
+
 
 	Environment World::setupWorld() {
 		Item fuelCell("Fuel Cells", 100, 5, 42000, "Black", "Fuel cells needed for hyperspace travel.");
@@ -92,6 +111,7 @@ namespace arcus {
 
 
 		Outdoor forest1("A dark and gloomy forest.", SUNNY, "Dark Blue");
+		//Outdoor* forest1p = &forest1;
 		forest1.addItem(berries);
 
 		Outdoor forest2("The forest here is actually pretty dark.", RAINY, "Black");
@@ -162,8 +182,18 @@ namespace arcus {
 		cave.addNeighbor(mountain, NORTH);
 		cave.openDirection(NORTH);
 
+		envs.push_back(forest1);
+		envs.push_back(forest2);
+		envs.push_back(fields1);
+		envs.push_back(fields2);
+		envs.push_back(glade);
+		envs.push_back(tunnel);
+		envs.push_back(mountain);
+		envs.push_back(cave);
+
 		return forest1;
 	}
 
+	
 	
 }
