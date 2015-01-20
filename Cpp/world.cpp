@@ -52,14 +52,14 @@ namespace arcus {
 	}
 
 	bool World::handleInput(const std::vector<std::string>& input) {
-		if (input[0].compare(0,2,"go") == 0) {
+		if (input[0].compare(0,2,"go") == 0) { // GO
 			Direction_t dir = convertDir(input[1]);
 			if(dir != INVALID && curEnvironment->isDirectionOpen(dir)) {
 				player.go(dir);
 				curEnvironment = curEnvironment->getNeighbor(dir);
 				return true;
 			}
-		} else if (input[0].compare(0,4,"take") == 0) {
+		} else if (input[0].compare(0,4,"take") == 0) { // TAKE
 			std::weak_ptr<Item> item = curEnvironment->pick_up(input[1]);
 			if(item.lock() && player.pick_up(item)) {
 				UserInterface::present("Picked up " + input[1] + ".");
@@ -67,11 +67,19 @@ namespace arcus {
 			} else {
 				UserInterface::present("Can't pick up " + input[1] + ".");
 			}
+		} else if (input[0].compare(0,4,"talk") == 0) { // TALK
+			std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[2]).lock();
+			/*if(actor &&  {
+				UserInterface::present("Picked up " + input[1] + ".");
+				return true;
+			} else {
+				UserInterface::present("Can't pick up " + input[1] + ".");
+			}*/
 		}
 
 
 
-		 else if (input[0].compare(0,1,"q") == 0) {
+		 else if (input[0].compare(0,1,"q") == 0) { // QUIT
 			running = 0;
 		}
 
@@ -134,7 +142,7 @@ namespace arcus {
 		auto orbis = std::make_shared<Corporeal>("Orbis", "James", 40, orbisDialogs, "White", 30, 60, 80, 150);
 
 		std::vector<std::string> yetiAnswers1;
-		yetiAnswers1.push_back("Ok.");;
+		yetiAnswers1.push_back("Ok.");
 		Dialog yetiDialog1("You shall not pass.", yetiAnswers1);
 		std::vector<std::string> yetiAnswers2;
 		yetiAnswers2.push_back("Cool cool.");

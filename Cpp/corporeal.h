@@ -40,6 +40,8 @@ namespace arcus {
 		bool pick_up(std::weak_ptr<Item>);
 		void drop(std::weak_ptr<Item>);
 
+		virtual void talk_to(std::weak_ptr<Actor>);
+
 	private:
 		std::string skinColor;
 		std::vector<std::weak_ptr<Item>> inventory;

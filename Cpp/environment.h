@@ -32,6 +32,7 @@ namespace arcus {
 		void enter(std::weak_ptr<Actor>);
 		void leave(std::weak_ptr<Actor>);
 		void pick_up(std::weak_ptr<Item>);
+		std::weak_ptr<Actor> getNpcByType(std::string) const;
 		std::weak_ptr<Item> pick_up(std::string);
 		void addItem(std::weak_ptr<Item>);
 		void drop(std::shared_ptr<Item>);

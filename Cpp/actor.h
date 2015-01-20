@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "directions.hpp"
 #include "dialog.h"
@@ -26,7 +27,7 @@ namespace arcus {
 
 		virtual void action();
 		void go(Direction_t);
-		virtual void talk_to(Actor) const;
+		virtual void talk_to(std::weak_ptr<Actor>);
 
 	private:
 		std::string type;

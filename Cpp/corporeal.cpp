@@ -104,7 +104,10 @@ namespace arcus {
 		//TODO
 	}
 
-
+	void Corporeal::talk_to(std::weak_ptr<Actor> other) {
+		std::cout << "Corporeal.talk_to()" << std::endl;
+		//TODO
+	}
 
 
 }

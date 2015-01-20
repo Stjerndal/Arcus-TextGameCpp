@@ -73,7 +73,7 @@ namespace arcus {
 		//TODO
 	}
 
-	void Actor::talk_to(Actor other) const{
+	void Actor::talk_to(std::weak_ptr<Actor> other) {
 		std::cout << "Actor.talk_to()" << std::endl;
 		//TODO
 	}

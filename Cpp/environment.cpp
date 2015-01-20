@@ -84,6 +84,26 @@ namespace arcus {
 	void Environment::leave(std::weak_ptr<Actor> actor) {
 		std::cout << "Environment.leave(" << actor.lock()->getName() << ")" << std::endl;
 	}
+
+	std::weak_ptr<Actor> Environment::getNpcByType(std::string type) const {
+		std::transform(type.begin(), type.end(), type.begin(), ::tolower);
+		std::string tmpType;
+		auto it = npcs.begin();
+		for(; it != npcs.end(); ++it) {
+			tmpType = (*it).lock()->getType();
+			std::transform(tmpType.begin(), tmpType.end(), tmpType.begin(), ::tolower);
+			if(type == tmpType) 
+				break;
+		}
+		if(it != npcs.end()) {
+			std::weak_ptr<Actor> npc = *it;
+			return npc;
+		} else {
+			std::weak_ptr<Actor> npc;
+			return npc;
+		}
+	}
+
 	/*
 	void Environment::pick_up(std::weak_ptr<Item> item) {
 		items.erase(iteratorOf(item));

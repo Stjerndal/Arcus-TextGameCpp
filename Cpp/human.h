@@ -2,12 +2,26 @@
 #define ARCUS_HUMAN_H
 
 #include <string>
+#include <vector>
+#include <memory>
+
+#include "humanoid.h"
 
 namespace arcus {
-	class Actor;
-	class Humanoid;
+
+	class Dialog;
 	class Human: public Humanoid {
 	public:
+		Human(const std::string _type, const std::string _name, const int _attitude,
+			const std::string _skinColor, const int _strength, const int _agility,
+			const int _intellect, const int _hp);
+		Human(const std::string _type, const std::string _name, const int _attitude,
+			const std::vector<Dialog> _dialogs, const std::string _skinColor, const int _strength,
+			const int _agility, const int _intellect, const int _hp);
+
+
+		virtual void talk_to(std::weak_ptr<Actor>);
+		/*
 		const std::string getHairColor() const;
 		const int getHumor() const;
 
@@ -18,7 +32,7 @@ namespace arcus {
 
 	private:
 		std::string hairColor;
-		int humor;
+		int humor;*/
 	};
 
 
