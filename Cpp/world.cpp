@@ -60,17 +60,12 @@ namespace arcus {
 				return true;
 			}
 		} else if (input[0].compare(0,4,"take") == 0) {
-			UserInterface::present("picking...");
-			Item* item = curEnvironment->pick_up(input[1]);
-			std::cerr << "flerp" << std::endl;
-			if(item != nullptr) {
-				std::cerr << "kerp" << item->getName() << std::endl;
- 				//bool r = player.pick_up(*item);
- 				std::cerr << "nerp" << std::endl;
-				UserInterface::present("Picked up" + input[1]);
+			std::weak_ptr<Item> item = curEnvironment->pick_up(input[1]);
+			if(item.lock() && player.pick_up(item)) {
+				UserInterface::present("Picked up " + input[1] + ".");
 				return true;
 			} else {
-				UserInterface::present("Can't pick up" + input[1]);
+				UserInterface::present("Can't pick up " + input[1] + ".");
 			}
 		}
 
@@ -95,7 +90,8 @@ namespace arcus {
 		std::vector<Dialog> bearDialogs;
 		bearDialogs.push_back(bearDialog);
 
-		Corporeal bear("Bear", "Jebo", 40, bearDialogs, "Brown", 70, 30, 10, 200);
+		//Corporeal bear("Bear", "Jebo", 40, bearDialogs, "Brown", 70, 30, 10, 200);
+		auto bear = std::make_shared<Corporeal>("Bear", "Jebo", 40, bearDialogs, "Brown", 70, 30, 10, 200);
 
 		std::vector<std::string> elephantAnswers;
 		elephantAnswers.push_back("Hey elephant!");
@@ -103,7 +99,7 @@ namespace arcus {
 		std::vector<Dialog> elephantDialogs;
 		elephantDialogs.push_back(elephantDialog);
 
-		Corporeal elephant("Elephant", "Frank", 40, elephantDialogs, "Grey", 60, 10, 90, 300);
+		auto elephant = std::make_shared<Corporeal>("Elephant", "Frank", 40, elephantDialogs, "Grey", 60, 10, 90, 300);
 
 		std::vector<std::string> robotAnswers1;
 		robotAnswers1.push_back("U ugly");
@@ -116,7 +112,7 @@ namespace arcus {
 		robotDialogs.push_back(robotDialog1);
 		robotDialogs.push_back(robotDialog2);
 
-		Corporeal robot("robot", "Harry", 40, robotDialogs, "Silver", 50, 30, 70, 200);
+		auto robot = std::make_shared<Corporeal>("robot", "Harry", 40, robotDialogs, "Silver", 50, 30, 70, 200);
 
 		std::vector<std::string> orbisAnswers1;
 		orbisAnswers1.push_back("Mountains");
@@ -135,7 +131,7 @@ namespace arcus {
 		orbisDialogs.push_back(orbisDialog2);
 		orbisDialogs.push_back(orbisDialog3);
 
-		Corporeal orbis("Orbis", "James", 40, orbisDialogs, "White", 30, 60, 80, 150);
+		auto orbis = std::make_shared<Corporeal>("Orbis", "James", 40, orbisDialogs, "White", 30, 60, 80, 150);
 
 		std::vector<std::string> yetiAnswers1;
 		yetiAnswers1.push_back("Ok.");;
@@ -147,7 +143,7 @@ namespace arcus {
 		yetiDialogs.push_back(yetiDialog1);
 		yetiDialogs.push_back(yetiDialog2);;
 
-		Corporeal yeti("Yeti", "James", 40, yetiDialogs, "Blue", 70, 50, 40, 250);
+		auto yeti = std::make_shared<Corporeal>("Yeti", "James", 40, yetiDialogs, "Blue", 70, 50, 40, 250);
 
 		auto forest1 = std::make_shared<Outdoor>("A dark and gloomy forest.", SUNNY, "Dark Blue");
 		forest1->addItem(berries);
@@ -229,9 +225,9 @@ namespace arcus {
  		envs.push_back(mountain);
 		envs.push_back(cave);
 
-		items.push_back(forest1);
- 		items.push_back(forest2);
- 		items.push_back(fields1);
+		items.push_back(fuelCell);
+ 		items.push_back(berries);
+ 		items.push_back(stone);
 
  		actors.push_back(bear);
  		actors.push_back(elephant);

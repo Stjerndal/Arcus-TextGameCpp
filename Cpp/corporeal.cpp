@@ -95,7 +95,8 @@ namespace arcus {
 
 	bool Corporeal::pick_up(std::weak_ptr<Item> item){
 		std::cout << "Corporeal.pick_up()" << std::endl;
-		//TODO
+		inventory.push_back(item);
+		return true;
 	}
 
 	void Corporeal::drop(std::weak_ptr<Item> item){
