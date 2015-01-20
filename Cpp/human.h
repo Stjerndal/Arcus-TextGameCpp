@@ -20,7 +20,7 @@ namespace arcus {
 			const int _agility, const int _intellect, const int _hp);
 
 
-		virtual void talk_to(std::weak_ptr<Actor>);
+		virtual void talk_to(Actor&);
 		/*
 		const std::string getHairColor() const;
 		const int getHumor() const;

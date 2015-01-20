@@ -22,30 +22,10 @@ namespace arcus {
 			     _intellect, _hp)
 	 {}
 
- 	void Human::talk_to(std::weak_ptr<Actor> other) {
-		std::cout << "Human.talk_to()" << std::endl;
-		//TODO
+ 	void Human::talk_to(Actor& other) {
+ 		int dialogIndex = (other.hasGoalAccess() ? 1 :  0);
+		getAnswerFromDialog(dialogIndex);
 	}
 
-
-	/*const int Humanoid::getCharisma() const {
-		return charisma;
-	}
-
-	const int Humanoid::getWisdom() const {
-		return wisdom;
-	}
-
-	void Humanoid::interact(Item item) const {
-
-	}
-
-	const bool Humanoid::charm(Actor actor) const {
-
-	}
-
-	void Humanoid::insult(Actor actor) const {
-
-	}*/
 
 }

@@ -21,7 +21,7 @@ namespace arcus {
 			const std::vector<Dialog> _dialogs, const std::string _skinColor, const int _strength,
 			const int _agility, const int _intellect, const int _hp);
 
-		virtual void talk_to(std::weak_ptr<Actor>);
+		virtual void talk_to(Actor&);
 
 	/*	const int getCharisma() const;
 		const int getWisdom() const;

@@ -5,6 +5,7 @@
 
 #include "robot.h"
 #include "dialog.h"
+#include "userinterface.h"
 
 namespace arcus {
 
@@ -22,30 +23,17 @@ namespace arcus {
 			     _intellect, _hp)
 	 {}
 
- 	void Robot::talk_to(std::weak_ptr<Actor> other) {
-		std::cout << "Robot.talk_to()" << std::endl;
-		//TODO
+ 	void Robot::talk_to(Actor& other) {
+		int answer = getAnswerFromDialog(0);
+		if(answer == 0) { //If the first answer
+			setAttitude(100); //Get angry
+			return;
+		} else { //Else be happy.
+			setAttitude(1);
+			other.giveGoalAccess();
+			getAnswerFromDialog(1); //Present another dialog;
+		}
 	}
 
-
-	/*const int Humanoid::getCharisma() const {
-		return charisma;
-	}
-
-	const int Humanoid::getWisdom() const {
-		return wisdom;
-	}
-
-	void Humanoid::interact(Item item) const {
-
-	}
-
-	const bool Humanoid::charm(Actor actor) const {
-
-	}
-
-	void Humanoid::insult(Actor actor) const {
-
-	}*/
 
 }

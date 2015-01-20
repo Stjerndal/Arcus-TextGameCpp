@@ -10,7 +10,7 @@ namespace arcus {
 		void chooseAnswer(int);
 		std::string present() const;
 
-	private:
+
 		const std::string statement;
 		const std::vector<std::string> answers;
 		int latestAnswer;

@@ -22,9 +22,15 @@ namespace arcus {
 			     _intellect, _hp)
 	 {}
 
- 	void Orbis::talk_to(std::weak_ptr<Actor> other) {
-		std::cout << "Orbis.talk_to()" << std::endl;
-		//TODO
+ 	void Orbis::talk_to(Actor& other) {
+		int answer = getAnswerFromDialog(0);
+		if(answer == 2) { //If the third answer
+			other.giveGoalAccess(); //give access to goal
+			getAnswerFromDialog(1); //say that is was correct
+		} else { //Else your wrong
+			getAnswerFromDialog(2); //Present another dialog;
+			return;
+		}
 	}
 
 

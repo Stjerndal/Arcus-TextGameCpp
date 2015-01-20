@@ -19,15 +19,20 @@ namespace arcus {
 		const std::string getType() const;
 		const std::string getName() const;
 		const int getAttitude() const;
+		const int hasGoalAccess() const;
 		std::string getStatus();
+		std::vector<Dialog> getDialogs();
 
 		void setType(std::string);
 		void setName(std::string);
 		void setAttitude(int);
 
+		void giveGoalAccess();
+
 		virtual void action();
 		void go(Direction_t);
-		virtual void talk_to(std::weak_ptr<Actor>);
+		virtual void talk_to(Actor&);
+		int getAnswerFromDialog(int dialogIndex);
 
 	private:
 		std::string type;
@@ -35,6 +40,7 @@ namespace arcus {
 		int attitude;
 		std::vector<Dialog> dialogs;
 		std::string status;
+		bool goalAccess;
 	};
 
 

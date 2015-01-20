@@ -22,7 +22,7 @@ namespace arcus {
 			     _intellect, _hp)
 	 {}
 
- 	void Humanoid::talk_to(std::weak_ptr<Actor> other) {
+ 	void Humanoid::talk_to(Actor& other) {
 		std::cout << "Corporeal.talk_to()" << std::endl;
 		//TODO
 	}

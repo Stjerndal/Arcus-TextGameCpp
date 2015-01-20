@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iostream>
 
 #include "dialog.h"
 
@@ -23,11 +24,11 @@ namespace arcus {
 
 	std::string Dialog::present() const {
 		std::ostringstream oss;
-		oss << statement << "\n";
-
+		oss << '"' << statement << '"' << "\n\nYou say:";
 		for(int i = 0; i < answers.size(); ++i) {
-			oss << "\n" << i << ". " << answers[i];
+			oss << "\n" << i+1 << ". " << '"' << answers[i] << '"';
 		}
+		return oss.str();
 	}
 
 	

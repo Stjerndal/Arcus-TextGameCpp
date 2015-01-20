@@ -9,6 +9,7 @@ class UserInterface {
 public:
 	static void present(const std::string msg);
 	static std::vector<std::string> fetchInput();
+	static int fetchNumber();
 private:
 	static std::vector<std::string>& split(const std::string&, char, std::vector<std::string>&);
 	static std::vector<std::string> split(const std::string&, char);

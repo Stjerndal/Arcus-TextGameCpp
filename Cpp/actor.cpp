@@ -3,6 +3,7 @@
 
 #include "actor.h"
 #include "dialog.h"
+#include "userinterface.h"
 
 namespace arcus {
 
@@ -16,6 +17,7 @@ namespace arcus {
 	, name()
 	, attitude()
 	, status()
+	, goalAccess(false)
 	{}
 
 	Actor::Actor(const std::string _type, const std::string _name, const int _attitude)
@@ -23,6 +25,7 @@ namespace arcus {
 	, name(_name)
 	, attitude(_attitude)
 	, status()
+	, goalAccess(false)
 	{}
 
 	Actor::Actor(const std::string _type, const std::string _name, const int _attitude, const std::vector<Dialog> _dialogs)
@@ -31,6 +34,7 @@ namespace arcus {
 	, attitude(_attitude)
 	, dialogs(_dialogs)
 	, status()
+	, goalAccess(false)
 	{}
 
 	const std::string Actor::getType() const {
@@ -43,6 +47,14 @@ namespace arcus {
 
 	const int Actor::getAttitude() const {
 		return attitude;
+	}
+
+	const int Actor::hasGoalAccess() const {
+		return goalAccess;
+	}
+
+	std::vector<Dialog> Actor::getDialogs() {
+		return dialogs;
 	}
 
 	std::string Actor::getStatus() {
@@ -63,6 +75,10 @@ namespace arcus {
 		attitude = _attitude;
 	}
 
+	void Actor::giveGoalAccess() {
+		goalAccess = true;
+	}
+
 	void Actor::action() {
 		std::cout << "Actor.action()" << std::endl;
 		//TODO
@@ -73,9 +89,22 @@ namespace arcus {
 		//TODO
 	}
 
-	void Actor::talk_to(std::weak_ptr<Actor> other) {
+	void Actor::talk_to(Actor& other) {
 		std::cout << "Actor.talk_to()" << std::endl;
 		//TODO
+	}
+
+	int Actor::getAnswerFromDialog(int dialogIndex) {
+		UserInterface::present(name + " the " + type + " says: \n");
+		//std::cerr << "1 " << dialogs[dialogIndex].answers[0] << std::endl;
+		UserInterface::present(dialogs[dialogIndex].present());
+		int answer = -1;
+		while(answer < 0 || answer > dialogs[dialogIndex].answers.size()-1) {
+			answer = UserInterface::fetchNumber()-1;
+		}
+		dialogs[dialogIndex].chooseAnswer(answer);
+		return answer;
+		return 1;
 	}
 
 

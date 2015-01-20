@@ -7,6 +7,9 @@
 #include "world.h"
 #include "actor.h"
 #include "corporeal.h"
+#include "human.h"
+#include "orbis.h"
+#include "robot.h"
 #include "environment.h"
 #include "outdoor.h"
 #include "indoor.h"
@@ -37,10 +40,11 @@ namespace arcus {
 	}
 
 	void World::update() {
+		updateGoal();
 		UserInterface::present("--------------------------\n");
 		UserInterface::present(present());
 		UserInterface::present("\n--------------------------");
-		UserInterface::present("What do you do?\n>> ");
+		UserInterface::present("What do you do?");
 
 		std::vector<std::string> input;
 		input = UserInterface::fetchInput();
@@ -68,7 +72,11 @@ namespace arcus {
 				UserInterface::present("Can't pick up " + input[1] + ".");
 			}
 		} else if (input[0].compare(0,4,"talk") == 0) { // TALK
-			std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[2]).lock();
+			std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[1]).lock();
+			if(actor) {
+				actor->talk_to(player);
+
+			}
 			/*if(actor &&  {
 				UserInterface::present("Picked up " + input[1] + ".");
 				return true;
@@ -86,9 +94,14 @@ namespace arcus {
 		return false;
 	}
 
+	void World::updateGoal() {
+		if(player.hasGoalAccess() && !envs[6]->isDirectionOpen(SOUTH))
+			envs[6]->openDirection(SOUTH);
+	}
+
 
 	std::shared_ptr<Environment> World::setupWorld() {
-		auto fuelCell = std::make_shared<Item>("Fuel Cells", 100, 5, 42000, "Black", "Fuel cells needed for hyperspace travel.");
+		auto fuelCell = std::make_shared<Item>("Fuel-cells", 100, 5, 42000, "Black", "Fuel cells needed for hyperspace travel.");
 		auto berries = std::make_shared<Item>("Blueberries", 1, 1, 10, "Blue", "Small edible berries.");
 		auto stone = std::make_shared<Item>("Stone", 70, 4, 3, "Grey", "A small stone.");
 
@@ -115,12 +128,12 @@ namespace arcus {
 		Dialog robotDialog1("U wot mate?", robotAnswers1);
 		std::vector<std::string> robotAnswers2;
 		robotAnswers2.push_back("Hmkay, thanks I guess.");
-		Dialog robotDialog2("Ok, I'll tell Yeti.", robotAnswers2);
+		Dialog robotDialog2("Ok, I'll tell Gandalf.", robotAnswers2);
 		std::vector<Dialog> robotDialogs;
 		robotDialogs.push_back(robotDialog1);
 		robotDialogs.push_back(robotDialog2);
 
-		auto robot = std::make_shared<Corporeal>("robot", "Harry", 40, robotDialogs, "Silver", 50, 30, 70, 200);
+		auto robot = std::make_shared<Robot>("robot", "Harry", 40, robotDialogs, "Silver", 50, 30, 70, 200);
 
 		std::vector<std::string> orbisAnswers1;
 		orbisAnswers1.push_back("Mountains");
@@ -130,7 +143,7 @@ namespace arcus {
 		Dialog orbisDialog1("What can run but never walks, has a mouth but never talks, has a bed but never sleeps, has a head but never weeps?", orbisAnswers1);
 		std::vector<std::string> orbisAnswers2;
 		orbisAnswers2.push_back("Cool cool.");
-		Dialog orbisDialog2("Righto! I'll tell the Yeti!", orbisAnswers2);
+		Dialog orbisDialog2("Righto! I'll tell Gandalf!", orbisAnswers2);
 		std::vector<std::string> orbisAnswers3;
 		orbisAnswers3.push_back("Shit.");
 		Dialog orbisDialog3("Wrongo!", orbisAnswers3);
@@ -139,19 +152,19 @@ namespace arcus {
 		orbisDialogs.push_back(orbisDialog2);
 		orbisDialogs.push_back(orbisDialog3);
 
-		auto orbis = std::make_shared<Corporeal>("Orbis", "James", 40, orbisDialogs, "White", 30, 60, 80, 150);
+		auto orbis = std::make_shared<Orbis>("Orbis", "James", 40, orbisDialogs, "White", 30, 60, 80, 150);
 
-		std::vector<std::string> yetiAnswers1;
-		yetiAnswers1.push_back("Ok.");
-		Dialog yetiDialog1("You shall not pass.", yetiAnswers1);
-		std::vector<std::string> yetiAnswers2;
-		yetiAnswers2.push_back("Cool cool.");
-		Dialog yetiDialog2("You shall pass.", yetiAnswers2);
-		std::vector<Dialog> yetiDialogs;
-		yetiDialogs.push_back(yetiDialog1);
-		yetiDialogs.push_back(yetiDialog2);;
+		std::vector<std::string> gandalfAnswers1;
+		gandalfAnswers1.push_back("Ok.");
+		Dialog gandalfDialog1("You shall not pass.", gandalfAnswers1);
+		std::vector<std::string> gandalfAnswers2;
+		gandalfAnswers2.push_back("Cool cool.");
+		Dialog gandalfDialog2("You shall pass.", gandalfAnswers2);
+		std::vector<Dialog> gandalfDialogs;
+		gandalfDialogs.push_back(gandalfDialog1);
+		gandalfDialogs.push_back(gandalfDialog2);;
 
-		auto yeti = std::make_shared<Corporeal>("Yeti", "James", 40, yetiDialogs, "Blue", 70, 50, 40, 250);
+		auto gandalf = std::make_shared<Human>("Human", "Gandalf", 40, gandalfDialogs, "Blue", 70, 50, 40, 250);
 
 		auto forest1 = std::make_shared<Outdoor>("A dark and gloomy forest.", SUNNY, "Dark Blue");
 		forest1->addItem(berries);
@@ -171,8 +184,8 @@ namespace arcus {
 		auto tunnel = std::make_shared<Indoor>("A dark tunnel.", 3);
 		tunnel->addNpc(robot);
 
-		auto mountain = std::make_shared<Outdoor>("Mountains surround you. To the south is you see an opening to a cave.", SNOWY, "White");
-		mountain->addNpc(yeti);
+		auto mountain = std::make_shared<Outdoor>("Mountains surround you. To the south you see an opening to a cave.", SNOWY, "White");
+		mountain->addNpc(gandalf);
 
 		auto cave = std::make_shared<Indoor>("A small cave", 5);
 		cave->addItem(fuelCell);
@@ -241,7 +254,7 @@ namespace arcus {
  		actors.push_back(elephant);
  		actors.push_back(orbis);
  		actors.push_back(robot);
-		actors.push_back(yeti);
+		actors.push_back(gandalf);
 
 
 		return forest1;
