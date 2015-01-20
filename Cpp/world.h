@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "actor.h"
 #include "environment.h"
@@ -16,9 +17,9 @@ namespace arcus {
 
 		~World();
 
-		World (const World& other); //copy constructor
+		//World (const World& other); //copy constructor
 
-		World& operator= (const World& other); //copy assignment operator
+		//World& operator= (const World& other); //copy assignment operator
 
 		void start();
 
@@ -28,15 +29,17 @@ namespace arcus {
 
 		bool handleInput(const std::vector<std::string>&);
 
-		Environment* setupWorld();
+		//Environment* setupWorld();
+		std::shared_ptr<Environment> setupWorld();
 
 
 
 	
 	private:
 		Actor player;
-		Environment* curEnvironment;
-		std::vector<Environment*> envs;
+		//Environment* curEnvironment;
+		std::shared_ptr<Environment> curEnvironment;
+		//std::vector<Environment*> envs;
 	};
 	
 }

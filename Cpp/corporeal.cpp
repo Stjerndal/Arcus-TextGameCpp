@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 
-#include "Corporeal.h"
+#include "corporeal.h"
 #include "dialog.h"
 #include "item.h"
 

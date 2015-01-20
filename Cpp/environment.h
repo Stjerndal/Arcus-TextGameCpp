@@ -15,6 +15,10 @@ namespace arcus {
 	class Environment {
 	public:
 		Environment();
+		~Environment();
+		//Environment(const Environment& other); //copy constructor
+		//Environment& operator= (const Environment& other); //copy assignment operator
+
 		Environment(const std::string description);
 		Environment(const std::string description, const std::vector<Item> items);
 		Environment(const std::string description, const std::vector<Direction_t> directions,

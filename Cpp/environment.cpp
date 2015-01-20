@@ -25,6 +25,31 @@ namespace arcus {
 	, status()
 	{}
 
+	Environment::~Environment() { //destructor
+		for(auto it = neighbors.begin(); it != neighbors.end(); ++it) {
+        	delete it->second; //second element in map is pointer
+    	}
+	};
+
+/*
+	//Copy Constructor 
+    Environment::Environment(const Environment& other) 
+	: description(other.description)
+	, directions(other.directions)
+	, neighbors()
+	, items(other.items)
+	, npcs(other.npcs)
+	, status(other.status)
+    {
+    	for (std::size_t i = 0; i < other.envs.size(); ++i) 
+        	envs[i] = new Environment(*other.envs[i]);
+
+        for(auto it = neighbors.begin(); it != neighbors.end(); ++it) {
+        	Environment* tmpEnv = new Environment()
+        	delete it->second; //second element in map is pointer
+    	}
+    }*/
+
 	Environment::Environment(const std::string _description)
 	: description(_description)
 	, directions()

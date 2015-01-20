@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <memory>
 
 #include "world.h"
 #include "actor.h"
@@ -20,21 +21,25 @@ namespace arcus {
 
 	World::World() 
 	: player("Human", "Marcus", 30)
-	, envs()
+	//, envs()
+	, curEnvironment()
 	{
 		//curEnvironment = setupWorld();
 	}
 
 	World::~World() //destructor
 	{
+		/*
     	for (auto it = envs.begin(); it != envs.end(); ++it){
+    		std::cerr << "herp" << std::endl;
 		    delete *it;
+		    
 		}
 		envs.clear();
-		delete curEnvironment;
+		delete curEnvironment;*/
 	};
 
-	/** Copy Constructor */
+	/*// Copy Constructor 
     World::World(const World& other) 
     : envs(other.envs.size())
     , curEnvironment(other.curEnvironment)
@@ -42,31 +47,26 @@ namespace arcus {
     {
     	for (std::size_t i = 0; i < other.envs.size(); ++i) 
         	envs[i] = new Environment(*other.envs[i]);
-    }
+    }*/
 
-    /** Copy Assignment Operator */
+    /*// Copy Assignment Operator
     World& World::operator= (const World& other)
     {
-    	/*
-        if(this != &other) {
-    		std::vector<Environment*> tmpVec= new std::vector<Environment*>(other.envs.size());
-    		std::copy(other.envs.begin(), other.envs.end(), tmpVec);
-    		delete other;
-    		envs = tmpVec;
-        }*/
 
     	std::swap(envs, other.envs); //reusing copy-constructor and destructor
     	std::swap(curEnvironment, other.curEnvironment);
     	std::swap(player, other.player);
 
         return *this;
-    }
+    }*/
 	
 
 	void World::start() {
 		curEnvironment = setupWorld();
-		while(1)
-			update();
+		std::cerr << "derp" << std::endl;
+		//delete *envs[envs.size()-1];
+		//while(1)
+			//update();
 	}
 
 	void World::update() {
@@ -85,7 +85,7 @@ namespace arcus {
 	}
 
 	bool World::handleInput(const std::vector<std::string>& input) {
-		if (input[0].compare(0,2,"go") == 0) {
+		/*if (input[0].compare(0,2,"go") == 0) {
 			Direction_t dir = convertDir(input[1]);
 			if(dir != INVALID && curEnvironment->isDirectionOpen(dir)) {
 				player.go(dir);
@@ -93,12 +93,13 @@ namespace arcus {
 				return true;
 			}
 		}
-
+*/
 		return false;
 	}
 
 
-	Environment* World::setupWorld() {
+//	Environment* World::setupWorld() {
+	std::shared_ptr<Environment> World::setupWorld() {
 		Item fuelCell("Fuel Cells", 100, 5, 42000, "Black", "Fuel cells needed for hyperspace travel.");
 		Item berries("Blueberries", 1, 1, 10, "Blue", "Small edible berries.");
 		Item stone("Stone", 70, 4, 3, "Grey", "A small stone.");
@@ -163,7 +164,9 @@ namespace arcus {
 
 		Corporeal yeti("Yeti", "James", 40, yetiDialogs, "Blue", 70, 50, 40, 250);
 
+		auto forest1 = std::make_shared<Outdoor>("A dark and gloomy forest.", SUNNY, "Dark Blue");
 
+/*
 		Outdoor* forest1 = new Outdoor("A dark and gloomy forest.", SUNNY, "Dark Blue");
 		forest1->addItem(berries);
 
@@ -186,7 +189,7 @@ namespace arcus {
 		mountain->addNpc(yeti);
 
 		Indoor* cave = new Indoor("A small cave", 5);
-		cave->addItem(fuelCell);
+		cave->addItem(fuelCell);*/
 
 
 		//Outdoor* forest1p = &forest1;
@@ -201,7 +204,7 @@ namespace arcus {
 		Outdoor* mountainp = &mountain;
 		Indoor* cavep = &cave;*/
 
-		forest1->addNeighbor(fields1, EAST);
+		/*forest1->addNeighbor(fields1, EAST);
 		forest1->openDirection(EAST);
 		forest1->addNeighbor(forest2, SOUTH);
 		forest1->openDirection(SOUTH);
@@ -255,7 +258,7 @@ namespace arcus {
 		envs.push_back(glade);
 		envs.push_back(tunnel);
 		envs.push_back(mountain);
-		envs.push_back(cave);
+		envs.push_back(cave);*/
 
 		//forest1p->present();
 		//std::cerr << "ok0" << std::endl;
