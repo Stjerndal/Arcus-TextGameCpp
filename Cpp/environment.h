@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
 #include "actor.h"
 #include "item.h"
@@ -15,41 +16,39 @@ namespace arcus {
 	class Environment {
 	public:
 		Environment();
-		~Environment();
-		//Environment(const Environment& other); //copy constructor
-		//Environment& operator= (const Environment& other); //copy assignment operator
 
 		Environment(const std::string description);
-		Environment(const std::string description, const std::vector<Item> items);
+		Environment(const std::string description, const std::vector<std::weak_ptr<Item>> items);
 		Environment(const std::string description, const std::vector<Direction_t> directions,
-			const std::map<Direction_t, Environment*> neighbors, const std::vector<Item> items);
+			const std::map<Direction_t, std::weak_ptr<Environment>> neighbors, const std::vector<std::weak_ptr<Item>> items);
 
 
 		const std::vector<Direction_t> getDirections() const;
-		Environment* getNeighbor(Direction_t);
+		std::shared_ptr<Environment> getNeighbor(Direction_t);
 		std::vector<Actor> getNpcs() const;
 		std::string getStatus();
 		
 		const std::string getDescription() const;
 		void enter(Actor&);
 		void leave(Actor&);
-		void pick_up(Item);
-		void addItem(Item);
-		void drop(Item);
+		void pick_up(std::weak_ptr<Item>);
+		std::weak_ptr<Item> pick_up(std::string);
+		void addItem(std::weak_ptr<Item>);
+		void drop(std::shared_ptr<Item>);
 		void openDirection(Direction_t);
-		void addNeighbor(Environment*, Direction_t);
+		void addNeighbor(std::weak_ptr<Environment>, Direction_t);
 		void addNpc(Actor);
 
 		bool isDirectionOpen(Direction_t) const;
 
 		virtual void affect(Actor&);
 		virtual std::string present() const;
-		const std::vector<Item>::iterator iteratorOf(const Item);
+		const std::vector<std::weak_ptr<Item>>::iterator iteratorOf(const std::weak_ptr<Item>);
 	private:
 		std::string description;
 		std::vector<Direction_t> directions;
-		std::map<Direction_t, Environment*> neighbors;
-		std::vector<Item> items;
+		std::map<Direction_t, std::weak_ptr<Environment>> neighbors;
+		std::vector<std::weak_ptr<Item>> items;
 		std::vector<Actor> npcs;
 		std::string status;
 	};

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "actor.h"
 
@@ -20,14 +21,14 @@ namespace arcus {
 			const int _agility, const int _intellect, const int _hp);
 
 		const std::string getSkinColor() const;
-		const std::vector<Item> getInventory() const;
+		const std::vector<std::weak_ptr<Item>> getInventory() const;
 		const int getStrength() const;
 		const int getAgility() const;
 		const int getIntellect() const;
 		const int getHp() const;
 
 		void setSkinColor(std::string);
-		void setInventory(std::vector<Item>);
+		void setInventory(std::vector<std::weak_ptr<Item>>);
 		void setStrength(int);
 		void setAgility(int);
 		void setIntellect(int);
@@ -35,13 +36,13 @@ namespace arcus {
 
 		virtual void fight(Corporeal);
 		virtual void die();
-		virtual void consume(Item);
-		bool pick_up(Item);
-		void drop(Item);
+		virtual void consume(std::weak_ptr<Item>);
+		bool pick_up(std::weak_ptr<Item>);
+		void drop(std::weak_ptr<Item>);
 
 	private:
 		std::string skinColor;
-		std::vector<Item> inventory;
+		std::vector<std::weak_ptr<Item>> inventory;
 		int strength;
 		int agility;
 		int intellect;

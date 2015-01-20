@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <memory>
 
 #include "corporeal.h"
 #include "dialog.h"
@@ -87,17 +88,17 @@ namespace arcus {
 		//TODO
 	}
 
-	void Corporeal::consume(Item item) {
+	void Corporeal::consume(std::weak_ptr<Item> item) {
 		std::cout << "Corporeal.consume()" << std::endl;
 		//TODO
 	}
 
-	bool Corporeal::pick_up(Item item){
+	bool Corporeal::pick_up(std::weak_ptr<Item> item){
 		std::cout << "Corporeal.pick_up()" << std::endl;
 		//TODO
 	}
 
-	void Corporeal::drop(Item item){
+	void Corporeal::drop(std::weak_ptr<Item> item){
 		std::cout << "Corporeal.drop()" << std::endl;
 		//TODO
 	}

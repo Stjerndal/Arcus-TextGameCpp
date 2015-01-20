@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 
-#include "actor.h"
+#include "corporeal.h"
 #include "environment.h"
 
 namespace arcus {
@@ -14,12 +14,6 @@ namespace arcus {
 
 	public:
 		World();
-
-		~World();
-
-		//World (const World& other); //copy constructor
-
-		//World& operator= (const World& other); //copy assignment operator
 
 		void start();
 
@@ -36,10 +30,13 @@ namespace arcus {
 
 	
 	private:
-		Actor player;
+		Corporeal player;
 		//Environment* curEnvironment;
 		std::shared_ptr<Environment> curEnvironment;
-		//std::vector<Environment*> envs;
+		std::vector<std::shared_ptr<Environment>> envs;
+		std::vector<std::shared_ptr<Item>> items;
+		std::vector<std::shared_ptr<Actor>> actors;
+		bool running;
 	};
 	
 }

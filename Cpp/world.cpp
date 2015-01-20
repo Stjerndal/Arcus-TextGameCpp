@@ -17,56 +17,23 @@
 namespace arcus {
 	/*
 	Actor player;
-	Environment curEnvironment;*/
+	std::shared_ptr<Environment> curEnvironment;*/
 
 	World::World() 
-	: player("Human", "Marcus", 30)
-	//, envs()
+	: player("Human", "Marcus", 30, "Brown", 50, 50, 50, 1000)
+	, envs()
+	, items()
+	, actors()
 	, curEnvironment()
-	{
-		//curEnvironment = setupWorld();
-	}
+	, running(0)
+	{}
 
-	World::~World() //destructor
-	{
-		/*
-    	for (auto it = envs.begin(); it != envs.end(); ++it){
-    		std::cerr << "herp" << std::endl;
-		    delete *it;
-		    
-		}
-		envs.clear();
-		delete curEnvironment;*/
-	};
-
-	/*// Copy Constructor 
-    World::World(const World& other) 
-    : envs(other.envs.size())
-    , curEnvironment(other.curEnvironment)
-    , player(other.player)
-    {
-    	for (std::size_t i = 0; i < other.envs.size(); ++i) 
-        	envs[i] = new Environment(*other.envs[i]);
-    }*/
-
-    /*// Copy Assignment Operator
-    World& World::operator= (const World& other)
-    {
-
-    	std::swap(envs, other.envs); //reusing copy-constructor and destructor
-    	std::swap(curEnvironment, other.curEnvironment);
-    	std::swap(player, other.player);
-
-        return *this;
-    }*/
-	
 
 	void World::start() {
 		curEnvironment = setupWorld();
-		std::cerr << "derp" << std::endl;
-		//delete *envs[envs.size()-1];
-		//while(1)
-			//update();
+		running = 1;
+		while(running)
+			update();
 	}
 
 	void World::update() {
@@ -85,24 +52,42 @@ namespace arcus {
 	}
 
 	bool World::handleInput(const std::vector<std::string>& input) {
-		/*if (input[0].compare(0,2,"go") == 0) {
+		if (input[0].compare(0,2,"go") == 0) {
 			Direction_t dir = convertDir(input[1]);
 			if(dir != INVALID && curEnvironment->isDirectionOpen(dir)) {
 				player.go(dir);
 				curEnvironment = curEnvironment->getNeighbor(dir);
 				return true;
 			}
+		} else if (input[0].compare(0,4,"take") == 0) {
+			UserInterface::present("picking...");
+			Item* item = curEnvironment->pick_up(input[1]);
+			std::cerr << "flerp" << std::endl;
+			if(item != nullptr) {
+				std::cerr << "kerp" << item->getName() << std::endl;
+ 				//bool r = player.pick_up(*item);
+ 				std::cerr << "nerp" << std::endl;
+				UserInterface::present("Picked up" + input[1]);
+				return true;
+			} else {
+				UserInterface::present("Can't pick up" + input[1]);
+			}
 		}
-*/
+
+
+
+		 else if (input[0].compare(0,1,"q") == 0) {
+			running = 0;
+		}
+
 		return false;
 	}
 
 
-//	Environment* World::setupWorld() {
 	std::shared_ptr<Environment> World::setupWorld() {
-		Item fuelCell("Fuel Cells", 100, 5, 42000, "Black", "Fuel cells needed for hyperspace travel.");
-		Item berries("Blueberries", 1, 1, 10, "Blue", "Small edible berries.");
-		Item stone("Stone", 70, 4, 3, "Grey", "A small stone.");
+		auto fuelCell = std::make_shared<Item>("Fuel Cells", 100, 5, 42000, "Black", "Fuel cells needed for hyperspace travel.");
+		auto berries = std::make_shared<Item>("Blueberries", 1, 1, 10, "Blue", "Small edible berries.");
+		auto stone = std::make_shared<Item>("Stone", 70, 4, 3, "Grey", "A small stone.");
 
 		std::vector<std::string> bearAnswers;
 		bearAnswers.push_back("Hey bear!");
@@ -165,46 +150,30 @@ namespace arcus {
 		Corporeal yeti("Yeti", "James", 40, yetiDialogs, "Blue", 70, 50, 40, 250);
 
 		auto forest1 = std::make_shared<Outdoor>("A dark and gloomy forest.", SUNNY, "Dark Blue");
-
-/*
-		Outdoor* forest1 = new Outdoor("A dark and gloomy forest.", SUNNY, "Dark Blue");
 		forest1->addItem(berries);
 
-		Outdoor* forest2 = new Outdoor("The forest here is actually pretty dark.", RAINY, "Black");
+		auto forest2 = std::make_shared<Outdoor>("The forest here is actually pretty dark.", RAINY, "Black");
 		forest2->addNpc(bear);
 
-		Outdoor* glade = new Outdoor("A glade in the forest, this area is cleared of trees. To the east you see a tunnel.", SUNNY, "Dark Blue");
+		auto glade = std::make_shared<Outdoor>("A glade in the forest, this area is cleared of trees. To the east you see a tunnel.", SUNNY, "Dark Blue");
 		glade->addItem(stone);
 		glade->addNpc(orbis);
 
-		Outdoor* fields1 = new Outdoor("Vast grass fields. To the west you see the forest.", SUNNY, "Blue");
+		auto fields1 = std::make_shared<Outdoor>("Vast grass fields. To the west you see the forest.", SUNNY, "Blue");
 
-		Outdoor* fields2 = new Outdoor("Vast grass fields. To the south you see a tunnel", SUNNY, "Blue");
+		auto fields2 = std::make_shared<Outdoor>("Vast grass fields. To the south you see a tunnel", SUNNY, "Blue");
 		fields2->addNpc(elephant);
 
-		Indoor* tunnel = new Indoor("A dark tunnel.", 3);
+		auto tunnel = std::make_shared<Indoor>("A dark tunnel.", 3);
 		tunnel->addNpc(robot);
 
-		Outdoor* mountain = new Outdoor("Mountains surround you. To the south is you see an opening to a cave.", SNOWY, "White");
+		auto mountain = std::make_shared<Outdoor>("Mountains surround you. To the south is you see an opening to a cave.", SNOWY, "White");
 		mountain->addNpc(yeti);
 
-		Indoor* cave = new Indoor("A small cave", 5);
-		cave->addItem(fuelCell);*/
+		auto cave = std::make_shared<Indoor>("A small cave", 5);
+		cave->addItem(fuelCell);
 
-
-		//Outdoor* forest1p = &forest1;
-
-		//Outdoor* test = new Outdoor("hej", SUNNY, "dig");
-
-		/*Outdoor* forest2p = &forest2;
-		Outdoor* fields1p = &fields1;
-		Outdoor* fields2p = &fields2;
-		Outdoor* gladep = &glade;
-		Indoor* tunnelp = &tunnel;
-		Outdoor* mountainp = &mountain;
-		Indoor* cavep = &cave;*/
-
-		/*forest1->addNeighbor(fields1, EAST);
+		forest1->addNeighbor(fields1, EAST);
 		forest1->openDirection(EAST);
 		forest1->addNeighbor(forest2, SOUTH);
 		forest1->openDirection(SOUTH);
@@ -252,19 +221,26 @@ namespace arcus {
 		cave->openDirection(NORTH);
 
 		envs.push_back(forest1);
-		envs.push_back(forest2);
-		envs.push_back(fields1);
-		envs.push_back(fields2);
-		envs.push_back(glade);
-		envs.push_back(tunnel);
-		envs.push_back(mountain);
-		envs.push_back(cave);*/
+ 		envs.push_back(forest2);
+ 		envs.push_back(fields1);
+ 		envs.push_back(fields2);
+ 		envs.push_back(glade);
+ 		envs.push_back(tunnel);
+ 		envs.push_back(mountain);
+		envs.push_back(cave);
 
-		//forest1p->present();
-		//std::cerr << "ok0" << std::endl;
+		items.push_back(forest1);
+ 		items.push_back(forest2);
+ 		items.push_back(fields1);
+
+ 		actors.push_back(bear);
+ 		actors.push_back(elephant);
+ 		actors.push_back(orbis);
+ 		actors.push_back(robot);
+		actors.push_back(yeti);
+
 
 		return forest1;
-		//return test;
 	}
 
 	
