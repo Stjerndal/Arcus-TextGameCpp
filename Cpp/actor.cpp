@@ -37,27 +37,27 @@ namespace arcus {
 	, alive(true)
 	{}
 
-	const std::string Actor::getType() const {
+	std::string Actor::getType() const {
 		return type;
 	}
 
-	const std::string Actor::getName() const {
+	std::string Actor::getName() const {
 		return name;
 	}
 
-	const int Actor::getAttitude() const {
+	int Actor::getAttitude() const {
 		return attitude;
 	}
 
-	const int Actor::hasGoalAccess() const {
+	int Actor::hasGoalAccess() const {
 		return goalAccess;
 	}
 
-	const bool Actor::isAlive() const {
+	bool Actor::isAlive() const {
 		return alive;
 	}
 
-	std::vector<Dialog> Actor::getDialogs() {
+	std::vector<Dialog> Actor::getDialogs() const{
 		return dialogs;
 	}
 
@@ -82,23 +82,19 @@ namespace arcus {
 	}
 
 	std::string Actor::action(Actor& other) {
-		std::cout << "Actor.action()" << std::endl;
-		//TODO
+		//std::cout << "Actor.action()" << std::endl;
 	}
 
 	void Actor::go(Direction_t direction) {
-		std::cout << "Actor.go()" << std::endl;
-		//TODO
+		//std::cout << "Actor.go()" << std::endl;
 	}
 
 	void Actor::talk_to(Actor& other) {
-		std::cout << "Actor.talk_to()" << std::endl;
-		//TODO
+		//std::cout << "Actor.talk_to()" << std::endl;
 	}
 
 	int Actor::getAnswerFromDialog(int dialogIndex) {
 		UserInterface::present(name + " the " + type + " says: \n");
-		//std::cerr << "1 " << dialogs[dialogIndex].answers[0] << std::endl;
 		UserInterface::present(dialogs[dialogIndex].present());
 		int answer = -1;
 		while(answer < 0 || answer > dialogs[dialogIndex].answers.size()-1) {

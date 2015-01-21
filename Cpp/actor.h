@@ -16,12 +16,12 @@ namespace arcus {
 		Actor(const std::string type, const std::string name, const int attitude);
 		Actor(const std::string type, const std::string name, const int attitude, const std::vector<Dialog>);
 
-		const std::string getType() const;
-		const std::string getName() const;
-		const int getAttitude() const;
-		const int hasGoalAccess() const;
-		const bool isAlive() const;
-		std::vector<Dialog> getDialogs();
+		std::string getType() const;
+		std::string getName() const;
+		int getAttitude() const;
+		int hasGoalAccess() const;
+		bool isAlive() const;
+		std::vector<Dialog> getDialogs() const;
 
 
 		void setAlive(bool);
