@@ -34,13 +34,17 @@ namespace arcus {
 		void setIntellect(int);
 		void setHp(int);
 
-		virtual void fight(Corporeal);
-		virtual void die();
+		std::string attack(Corporeal&);
+		virtual std::string attackString(Corporeal&, int);
+		virtual int getDmg();
+		void takeDmg(Corporeal&, int);
+		virtual void die(Corporeal&);
 		virtual void consume(std::weak_ptr<Item>);
 		bool pick_up(std::weak_ptr<Item>);
 		void drop(std::weak_ptr<Item>);
 
 		virtual void talk_to(Actor&);
+		virtual std::string action(Actor&);
 
 	private:
 		std::string skinColor;

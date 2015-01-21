@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 #include "orbis.h"
 #include "dialog.h"
@@ -33,5 +34,15 @@ namespace arcus {
 		}
 	}
 
+	std::string Orbis::attackString(Corporeal& other, int dmg) {
+		std::ostringstream oss;
+		oss << "The " << getType() << " ninjakicks " << other.getType() << " for " << dmg << " damage!"
+			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";
+		return oss.str();
+	}
+
+	int Orbis::getDmg() {
+		return (getStrength() + (getAgility()*2) + getIntellect())/ 2;
+	}
 
 }

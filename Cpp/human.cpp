@@ -2,8 +2,10 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 #include "human.h"
+#include "humanoid.h"
 #include "dialog.h"
 
 namespace arcus {
@@ -25,6 +27,18 @@ namespace arcus {
  	void Human::talk_to(Actor& other) {
  		int dialogIndex = (other.hasGoalAccess() ? 1 :  0);
 		getAnswerFromDialog(dialogIndex);
+	}
+
+	std::string Human::attackString(Corporeal& other, int dmg) {
+		std::ostringstream oss;
+		oss << getType() << " blast " << other.getType() << " for " << dmg << " damage!"
+			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";
+		return oss.str();
+	}
+
+	void Human::die(Corporeal& other) {
+		Humanoid::die(other);
+		other.giveGoalAccess();
 	}
 
 

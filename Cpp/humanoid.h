@@ -23,6 +23,10 @@ namespace arcus {
 
 		virtual void talk_to(Actor&);
 
+		virtual std::string attackString(Corporeal&, int);
+		virtual int getDmg();
+		virtual void die(Corporeal&);
+
 	/*	const int getCharisma() const;
 		const int getWisdom() const;
 

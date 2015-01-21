@@ -7,6 +7,7 @@
 
 #include "corporeal.h"
 #include "environment.h"
+#include "human.h"
 
 namespace arcus {
 
@@ -23,6 +24,8 @@ namespace arcus {
 
 		bool handleInput(const std::vector<std::string>&);
 
+		void updateGoal();
+
 		//Environment* setupWorld();
 		std::shared_ptr<Environment> setupWorld();
 
@@ -30,7 +33,7 @@ namespace arcus {
 
 	
 	private:
-		Corporeal player;
+		Human player;
 		//Environment* curEnvironment;
 		std::shared_ptr<Environment> curEnvironment;
 		std::vector<std::shared_ptr<Environment>> envs;

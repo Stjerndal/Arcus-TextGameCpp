@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 #include "robot.h"
 #include "dialog.h"
@@ -33,6 +34,17 @@ namespace arcus {
 			other.giveGoalAccess();
 			getAnswerFromDialog(1); //Present another dialog;
 		}
+	}
+
+	std::string Robot::attackString(Corporeal& other, int dmg) {
+		std::ostringstream oss;
+		oss << "The " << getType() << " shreds " << other.getType() << " for " << dmg << " damage!"
+			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";
+		return oss.str();
+	}
+
+	int Robot::getDmg() {
+		return (getStrength()*2) + (getAgility()/2) + (getIntellect()*2)/ 2;
 	}
 
 

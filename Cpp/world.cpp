@@ -19,11 +19,11 @@
 
 namespace arcus {
 	/*
-	Actor player;
+	Corporeal player;
 	std::shared_ptr<Environment> curEnvironment;*/
 
 	World::World() 
-	: player("Human", "Marcus", 30, "Brown", 50, 50, 50, 1000)
+	: player("You", "You", 30, "Brown", 50, 50, 50, 1000)
 	, envs()
 	, items()
 	, actors()
@@ -75,14 +75,17 @@ namespace arcus {
 			std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[1]).lock();
 			if(actor) {
 				actor->talk_to(player);
-
-			}
-			/*if(actor &&  {
-				UserInterface::present("Picked up " + input[1] + ".");
-				return true;
 			} else {
-				UserInterface::present("Can't pick up " + input[1] + ".");
-			}*/
+				UserInterface::present("Can't talk with " + input[1] + ".");
+			}
+		} else if (input[0].compare(0,6,"attack") == 0) { // ATTACK
+			std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[1]).lock();
+			if(actor) {
+				UserInterface::present(player.action(*actor));
+				UserInterface::present(actor->action(player));
+			} else {
+				UserInterface::present("Can't attack " + input[1] + ".");
+			}
 		}
 
 

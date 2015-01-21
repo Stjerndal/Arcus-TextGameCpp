@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 #include "humanoid.h"
 #include "dialog.h"
@@ -24,7 +25,22 @@ namespace arcus {
 
  	void Humanoid::talk_to(Actor& other) {
 		std::cout << "Corporeal.talk_to()" << std::endl;
-		//TODO
+		Corporeal::talk_to(other);
+	}
+
+	std::string Humanoid::attackString(Corporeal& other, int dmg) {
+		std::ostringstream oss;
+		oss << "The " << getType() << " hits " << other.getType() << " for " << dmg << " damage!"
+			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";
+		return oss.str();
+	}
+
+	int Humanoid::getDmg() {
+		return ((getStrength() * 2) + getAgility() + getIntellect())/ 2;
+	}
+
+	void Humanoid::die(Corporeal& other) {
+		Corporeal::die(other);
 	}
 
 

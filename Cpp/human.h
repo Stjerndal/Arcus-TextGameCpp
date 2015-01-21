@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "humanoid.h"
+#include "corporeal.h"
 
 namespace arcus {
 
@@ -21,6 +22,9 @@ namespace arcus {
 
 
 		virtual void talk_to(Actor&);
+
+		virtual std::string attackString(Corporeal&, int);
+		virtual void die(Corporeal&);
 		/*
 		const std::string getHairColor() const;
 		const int getHumor() const;

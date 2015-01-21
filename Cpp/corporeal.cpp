@@ -1,10 +1,12 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 #include "corporeal.h"
 #include "dialog.h"
 #include "item.h"
+#include "userinterface.h"
 
 namespace arcus {
 
@@ -78,14 +80,35 @@ namespace arcus {
 		hp = _hp;
 	}
 
-	void Corporeal::fight(Corporeal other) {
-		std::cout << "Corporeal.fight()" << std::endl;
-		//TODO
+	std::string Corporeal::attack(Corporeal& other) {
+		std::cout << "Corporeal.attack()" << std::endl;
+		int dmg = getDmg();
+		other.takeDmg(*this, dmg);
+		return attackString(other, dmg);
 	}
 
-	void Corporeal::die() {
+	std::string Corporeal::attackString(Corporeal& other, int dmg) {
+		std::ostringstream oss;
+		oss << "The " << getType() << " pummels " << other.getType() << " for " << dmg << " damage!"
+			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";
+		return oss.str();
+	}
+
+	int Corporeal::getDmg() {
+		return ((strength * 3) + agility )/ 2;
+	}
+
+	void Corporeal::takeDmg(Corporeal& other, int dmg) {
+		hp -= dmg;
+		if(hp <= 0) {
+			hp = 0;
+			die(other);
+		}
+	}
+
+	void Corporeal::die(Corporeal& other) {
 		std::cout << "Corporeal.die()" << std::endl;
-		//TODO
+		setAlive(false);
 	}
 
 	void Corporeal::consume(std::weak_ptr<Item> item) {
@@ -105,8 +128,22 @@ namespace arcus {
 	}
 
 	void Corporeal::talk_to(Actor& other) {
-		std::cout << "Corporeal.talk_to()" << std::endl;
-		//TODO
+		getAnswerFromDialog(0);
+	}
+
+	std::string Corporeal::action(Actor& other) {
+		std::cout << "Corporeal.action()" << std::endl;
+		Corporeal* otherCorp =  dynamic_cast<Corporeal*>(&other);
+      	if(otherCorp){
+			if(!isAlive())
+				return getName() + " the " + getType() + " is dead.";
+			if(!otherCorp->isAlive())
+				return "The " + other.getType() + " is already dead.";
+			return attack(*otherCorp);
+		}
+		else {
+			return "Can not take action against " + other.getType() + " - it's incorporeal!";
+		}
 	}
 
 

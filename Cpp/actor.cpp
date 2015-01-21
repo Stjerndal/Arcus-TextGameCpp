@@ -18,6 +18,7 @@ namespace arcus {
 	, attitude()
 	, status()
 	, goalAccess(false)
+	, alive(true)
 	{}
 
 	Actor::Actor(const std::string _type, const std::string _name, const int _attitude)
@@ -26,6 +27,7 @@ namespace arcus {
 	, attitude(_attitude)
 	, status()
 	, goalAccess(false)
+	, alive(true)
 	{}
 
 	Actor::Actor(const std::string _type, const std::string _name, const int _attitude, const std::vector<Dialog> _dialogs)
@@ -35,6 +37,7 @@ namespace arcus {
 	, dialogs(_dialogs)
 	, status()
 	, goalAccess(false)
+	, alive(true)
 	{}
 
 	const std::string Actor::getType() const {
@@ -53,6 +56,10 @@ namespace arcus {
 		return goalAccess;
 	}
 
+	const bool Actor::isAlive() const {
+		return alive;
+	}
+
 	std::vector<Dialog> Actor::getDialogs() {
 		return dialogs;
 	}
@@ -61,6 +68,10 @@ namespace arcus {
 		std::string oldStatus = status;
 		status = "";
 		return oldStatus;
+	}
+
+	void Actor::setAlive(bool _alive) {
+		alive = _alive;
 	}
 
 	void Actor::setType(std::string _type) {
@@ -79,7 +90,7 @@ namespace arcus {
 		goalAccess = true;
 	}
 
-	void Actor::action() {
+	std::string Actor::action(Actor& other) {
 		std::cout << "Actor.action()" << std::endl;
 		//TODO
 	}
