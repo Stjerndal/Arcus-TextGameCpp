@@ -31,41 +31,41 @@ namespace arcus {
 	, items(_items)
 	{}*/
 
-	const std::vector<Item> Container::getItems() const {
+	std::vector<Item> Container::getItems() const {
 		return items;
 	}
 
-	const int Container::getHold_weight() const {
+	int Container::getHold_weight() const {
 		return hold_weight;
 	}
 	
-	const int Container::getHold_volume() const {
+	int Container::getHold_volume() const {
 		return hold_volume;
 	}
 
-	const int Container::getCur_weight() const {
+	int Container::getCur_weight() const {
 		return cur_weight;
 	}
 	
-	const int Container::getCur_volume() const {
+	int Container::getCur_volume() const {
 		return cur_volume;
 	}
 	
 
-	void Container::setItems(const std::vector<Item> _items) {
+	void Container::setItems(std::vector<Item> _items) {
 		items = _items;
 	}
 	
-	void Container::setHold_weight(const int _hold_weight) {
+	void Container::setHold_weight(int _hold_weight) {
 		hold_weight = _hold_weight;
 	}
 	
-	void Container::setHold_volume(const int _hold_volume) {
+	void Container::setHold_volume(int _hold_volume) {
 		hold_volume = _hold_volume;
 	}
 	
 	
-	const bool Container::add(const Item item) {
+	bool Container::add(const Item item) {
 		if( (cur_weight+item.getWeight()) > hold_weight || 
 			(cur_volume+item.getVolume()) > hold_volume)
 			return false;
@@ -75,7 +75,7 @@ namespace arcus {
 		return true;
 	}
 	
-	const bool Container::remove(const Item item) {
+	bool Container::remove(const Item item) {
 		if(!contains(item))
 			return false;
 		cur_weight -= item.getWeight();
@@ -83,13 +83,13 @@ namespace arcus {
 		items.erase(iteratorOf(item));
 	}
 	
-	const bool Container::contains(const Item item) {
+	bool Container::contains(const Item item) {
 		return iteratorOf(item) != items.end();
 		//std::find(items.begin(), items.end(), item);
 		//return false;
 	}
 
-	const std::vector<Item>::iterator Container::iteratorOf(const Item item) {
+	std::vector<Item>::iterator Container::iteratorOf(const Item item) {
 		return std::find(items.begin(), items.end(), item);
 	}
 	
