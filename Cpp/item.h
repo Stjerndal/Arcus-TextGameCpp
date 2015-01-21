@@ -27,8 +27,8 @@ namespace arcus {
 		void setHp(int);
 
 	private:
-		std::string name; //TODO:
-		int weight; //Make unchangable to const?
+		std::string name;
+		int weight;
 		int volume;
 		int price;
 		std::string color;
