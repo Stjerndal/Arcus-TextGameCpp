@@ -8,11 +8,11 @@ namespace arcus {
 	class Spirit;
 	class FireSpirit: public Spirit {
 	public:
-		const int getHate() const;
+		int getHate() const;
 
 		void setHate(int);
 
-		const bool burn(Corporeal) const;
+		bool burn(Corporeal) const;
 
 	private:
 		int hate;

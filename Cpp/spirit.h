@@ -11,14 +11,14 @@ namespace arcus {
 
 	class Spirit: public Actor {
 	public:
-		const int getPower() const;
-		const Realm_t getRealm() const;
-		const Corporeal getBody() const;
+		int getPower() const;
+		Realm_t getRealm() const;
+		Corporeal getBody() const;
 
 		void setPower(int);
 		void setRealm(Realm_t);
 
-		void possess(Corporeal);
+		void possess(Corporeal&);
 		void dispossess();
 
 	private:

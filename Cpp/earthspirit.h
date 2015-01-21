@@ -8,11 +8,11 @@ namespace arcus {
 	class Spirit;
 	class EarthSpirit: public Spirit {
 	public:
-		const int getCompassion() const;
+		int getCompassion() const;
 
 		void setCompassion(int);
 
-		const bool heal(Corporeal) const;
+		bool heal(Corporeal) const;
 
 	private:
 		int compassion;
