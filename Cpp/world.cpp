@@ -74,7 +74,13 @@ namespace arcus {
 		} else if (input[0].compare(0,4,"talk") == 0) { // TALK
 			std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[1]).lock();
 			if(actor) {
-				actor->talk_to(player);
+				if(actor->isAlive()) {
+					actor->talk_to(player);
+					if(actor->getAttitude() > 90) //angry!
+						UserInterface::present(actor->action(player)); // attack player!
+				} else {
+					UserInterface::present(actor->getType() + " is dead.");
+				}
 			} else {
 				UserInterface::present("Can't talk with " + input[1] + ".");
 			}
@@ -115,7 +121,7 @@ namespace arcus {
 		bearDialogs.push_back(bearDialog);
 
 		//Corporeal bear("Bear", "Jebo", 40, bearDialogs, "Brown", 70, 30, 10, 200);
-		auto bear = std::make_shared<Corporeal>("Bear", "Jebo", 40, bearDialogs, "Brown", 70, 30, 10, 200);
+		auto bear = std::make_shared<Corporeal>("Bear", "Jebo", 95, bearDialogs, "Brown", 80, 50, 10, 250);
 
 		std::vector<std::string> elephantAnswers;
 		elephantAnswers.push_back("Hey elephant!");
@@ -123,7 +129,7 @@ namespace arcus {
 		std::vector<Dialog> elephantDialogs;
 		elephantDialogs.push_back(elephantDialog);
 
-		auto elephant = std::make_shared<Corporeal>("Elephant", "Frank", 40, elephantDialogs, "Grey", 60, 10, 90, 300);
+		auto elephant = std::make_shared<Corporeal>("Elephant", "Frank", 40, elephantDialogs, "Grey", 90, 50, 90, 350);
 
 		std::vector<std::string> robotAnswers1;
 		robotAnswers1.push_back("U ugly");
@@ -136,7 +142,7 @@ namespace arcus {
 		robotDialogs.push_back(robotDialog1);
 		robotDialogs.push_back(robotDialog2);
 
-		auto robot = std::make_shared<Robot>("robot", "Harry", 40, robotDialogs, "Silver", 50, 30, 70, 200);
+		auto robot = std::make_shared<Robot>("robot", "Harry", 40, robotDialogs, "Silver", 50, 30, 70, 300);
 
 		std::vector<std::string> orbisAnswers1;
 		orbisAnswers1.push_back("Mountains");
@@ -155,7 +161,7 @@ namespace arcus {
 		orbisDialogs.push_back(orbisDialog2);
 		orbisDialogs.push_back(orbisDialog3);
 
-		auto orbis = std::make_shared<Orbis>("Orbis", "James", 40, orbisDialogs, "White", 30, 60, 80, 150);
+		auto orbis = std::make_shared<Orbis>("Orbis", "James", 40, orbisDialogs, "White", 40, 70, 80, 250);
 
 		std::vector<std::string> gandalfAnswers1;
 		gandalfAnswers1.push_back("Ok.");
@@ -167,7 +173,7 @@ namespace arcus {
 		gandalfDialogs.push_back(gandalfDialog1);
 		gandalfDialogs.push_back(gandalfDialog2);;
 
-		auto gandalf = std::make_shared<Human>("Human", "Gandalf", 40, gandalfDialogs, "Blue", 70, 50, 40, 250);
+		auto gandalf = std::make_shared<Human>("Human", "Gandalf", 40, gandalfDialogs, "Blue", 70, 50, 40, 400);
 
 		auto forest1 = std::make_shared<Outdoor>("A dark and gloomy forest.", SUNNY, "Dark Blue");
 		forest1->addItem(berries);
