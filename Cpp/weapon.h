@@ -5,15 +5,13 @@ namespace arcus {
 	class Item;
 	class Weapon: public Item {
 	public:
-		const int getDamage() const;
-		const int getRange() const;
-		const int getHandsRequired() const;
-
-		//const fields
+		int getDamage() const;
+		int getRange() const;
+		int getHandsRequired() const;
 
 	private:
-		int damage; //TODO:
-		int range; //Make unchangable to const?
+		int damage; 
+		int range;
 		int handsRequired;
 	};
 
