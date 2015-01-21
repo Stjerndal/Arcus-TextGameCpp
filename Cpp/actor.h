@@ -21,7 +21,6 @@ namespace arcus {
 		const int getAttitude() const;
 		const int hasGoalAccess() const;
 		const bool isAlive() const;
-		std::string getStatus();
 		std::vector<Dialog> getDialogs();
 
 
@@ -42,7 +41,6 @@ namespace arcus {
 		std::string name;
 		int attitude;
 		std::vector<Dialog> dialogs;
-		std::string status;
 		bool goalAccess;
 		bool alive;
 	};

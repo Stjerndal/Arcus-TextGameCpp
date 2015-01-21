@@ -16,7 +16,6 @@ namespace arcus {
 	: type()
 	, name()
 	, attitude()
-	, status()
 	, goalAccess(false)
 	, alive(true)
 	{}
@@ -25,7 +24,6 @@ namespace arcus {
 	: type(_type)
 	, name(_name)
 	, attitude(_attitude)
-	, status()
 	, goalAccess(false)
 	, alive(true)
 	{}
@@ -35,7 +33,6 @@ namespace arcus {
 	, name(_name)
 	, attitude(_attitude)
 	, dialogs(_dialogs)
-	, status()
 	, goalAccess(false)
 	, alive(true)
 	{}
@@ -62,12 +59,6 @@ namespace arcus {
 
 	std::vector<Dialog> Actor::getDialogs() {
 		return dialogs;
-	}
-
-	std::string Actor::getStatus() {
-		std::string oldStatus = status;
-		status = "";
-		return oldStatus;
 	}
 
 	void Actor::setAlive(bool _alive) {
