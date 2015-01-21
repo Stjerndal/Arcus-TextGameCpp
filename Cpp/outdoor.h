@@ -13,8 +13,8 @@ namespace arcus {
 	public:
 		Outdoor(const std::string description, const Weather_t, const std::string skyColor);
 
-		const Weather_t getWeather() const;
-		const std::string getSkyColor() const;
+		Weather_t getWeather() const;
+		std::string getSkyColor() const;
 
 		void setWeather(const Weather_t);
 		void setSkyColor(const std::string);

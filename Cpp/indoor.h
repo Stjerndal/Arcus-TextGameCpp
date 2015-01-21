@@ -11,8 +11,8 @@ namespace arcus {
 	public:
 		Indoor(const std::string _description, const int ceiling_height);
 
-		const std::vector<Item> getWalls() const;
-		const int getCeiling_height() const;
+		std::vector<Item> getWalls() const;
+		int getCeiling_height() const;
 
 		void setWalls(const std::vector<Item>);
 		void setCeiling_height(const int);

@@ -14,11 +14,11 @@ namespace arcus {
 	, skyColor(_skyColor)
 	{}
 
-	const Weather_t Outdoor::getWeather() const {
+	Weather_t Outdoor::getWeather() const {
 		return weather;
 	}
 
-	const std::string Outdoor::getSkyColor() const {
+	std::string Outdoor::getSkyColor() const {
 		return skyColor;
 	}
 

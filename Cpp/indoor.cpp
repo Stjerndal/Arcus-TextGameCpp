@@ -13,11 +13,11 @@ namespace arcus {
 	, walls()
 	{}
 
-	const std::vector<Item> Indoor::getWalls() const {
+	std::vector<Item> Indoor::getWalls() const {
 		return walls;
 	}
 
-	const int Indoor::getCeiling_height() const {
+	int Indoor::getCeiling_height() const {
 		return ceiling_height;
 	}
 
