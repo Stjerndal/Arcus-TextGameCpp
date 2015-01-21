@@ -28,7 +28,7 @@ namespace arcus {
 		Corporeal::talk_to(other);
 	}
 
-	std::string Humanoid::attackString(Corporeal& other, int dmg) {
+	std::string Humanoid::attackString(Corporeal& other, int dmg) const {
 		std::ostringstream oss;
 		oss << "The " << getType() << " hits " << other.getType() << " for " << dmg << " damage!"
 			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";

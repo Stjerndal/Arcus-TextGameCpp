@@ -36,7 +36,7 @@ namespace arcus {
 		}
 	}
 
-	std::string Robot::attackString(Corporeal& other, int dmg) {
+	std::string Robot::attackString(Corporeal& other, int dmg) const {
 		std::ostringstream oss;
 		oss << "The " << getType() << " shreds " << other.getType() << " for " << dmg << " damage!"
 			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";

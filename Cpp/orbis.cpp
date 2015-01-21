@@ -34,7 +34,7 @@ namespace arcus {
 		}
 	}
 
-	std::string Orbis::attackString(Corporeal& other, int dmg) {
+	std::string Orbis::attackString(Corporeal& other, int dmg) const {
 		std::ostringstream oss;
 		oss << "The " << getType() << " ninjakicks " << other.getType() << " for " << dmg << " damage!"
 			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";

@@ -23,7 +23,7 @@ namespace arcus {
 
 		virtual void talk_to(Actor&);
 
-		virtual std::string attackString(Corporeal&, int);
+		virtual std::string attackString(Corporeal&, int) const;
 		virtual void die(Corporeal&);
 		/*
 		const std::string getHairColor() const;

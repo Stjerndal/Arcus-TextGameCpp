@@ -29,7 +29,7 @@ namespace arcus {
 		getAnswerFromDialog(dialogIndex);
 	}
 
-	std::string Human::attackString(Corporeal& other, int dmg) {
+	std::string Human::attackString(Corporeal& other, int dmg) const {
 		std::ostringstream oss;
 		oss << getType() << " blast " << other.getType() << " for " << dmg << " damage!"
 			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";
