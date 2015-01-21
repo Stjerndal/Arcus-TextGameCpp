@@ -29,7 +29,7 @@ namespace arcus {
 	, actors()
 	, curEnvironment()
 	, running(0)
-	, commands("(go xxx, take xxx, talk xxx, fight xxx)")
+	, commands("(go xxx, take xxx, talk xxx, attack xxx)")
 	{}
 
 
