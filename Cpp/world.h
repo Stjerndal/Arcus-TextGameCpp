@@ -26,6 +26,9 @@ namespace arcus {
 
 		void updateGoal();
 
+		void gameOver();
+		void gameWon();
+
 		//Environment* setupWorld();
 		std::shared_ptr<Environment> setupWorld();
 
@@ -39,6 +42,7 @@ namespace arcus {
 		std::vector<std::shared_ptr<Environment>> envs;
 		std::vector<std::shared_ptr<Item>> items;
 		std::vector<std::shared_ptr<Actor>> actors;
+		std::string commands;
 		bool running;
 	};
 	

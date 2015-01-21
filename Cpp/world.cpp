@@ -29,6 +29,7 @@ namespace arcus {
 	, actors()
 	, curEnvironment()
 	, running(0)
+	, commands("(go xxx, take xxx, talk xxx, fight xxx)")
 	{}
 
 
@@ -44,11 +45,13 @@ namespace arcus {
 		UserInterface::present("--------------------------\n");
 		UserInterface::present(present());
 		UserInterface::present("\n--------------------------");
-		UserInterface::present("What do you do?");
+		UserInterface::present("What do you do?" + commands);
 
 		std::vector<std::string> input;
 		input = UserInterface::fetchInput();
 		handleInput(input);
+		if(!player.isAlive())
+			gameOver();
 	}
 
 	std::string World::present() const{
@@ -67,6 +70,9 @@ namespace arcus {
 			std::weak_ptr<Item> item = curEnvironment->pick_up(input[1]);
 			if(item.lock() && player.pick_up(item)) {
 				UserInterface::present("Picked up " + input[1] + ".");
+				if(item.lock()->getName() == "Fuel-cells") {
+					gameWon();
+				}
 				return true;
 			} else {
 				UserInterface::present("Can't pick up " + input[1] + ".");
@@ -106,6 +112,20 @@ namespace arcus {
 	void World::updateGoal() {
 		if(player.hasGoalAccess() && !envs[6]->isDirectionOpen(SOUTH))
 			envs[6]->openDirection(SOUTH);
+	}
+
+	void World::gameOver() {
+		UserInterface::present("\n**************************\n");
+		UserInterface::present("YOU JUST LOST THE GAME!");
+		UserInterface::present("\n**************************");
+		running = false;
+	}
+
+	void World::gameWon() {
+		UserInterface::present("\n**************************\n");
+		UserInterface::present("YOU JUST WON THE GAME!");
+		UserInterface::present("\n**************************");
+		running = false;
 	}
 
 
