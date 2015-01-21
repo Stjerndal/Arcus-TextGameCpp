@@ -1,2 +1,0 @@
- all:
- g++ -Wall -std=c++11 Main/*.cpp Actor/*.cpp Environments/*.cpp Object/*.cpp -o Build/Obamacare.exe
