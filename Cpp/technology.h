@@ -5,15 +5,12 @@ namespace arcus {
 	class Item;
 	class Technology: public Item {
 	public:
-		const int getSecurity() const;
-
-		//const field
+		int getSecurity() const;
 
 		void hacked();
 
 	private:
-		int security; //TODO:
-		 //Make unchangable to const?
+		int security;
 	};
 
 }
