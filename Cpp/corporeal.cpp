@@ -40,23 +40,23 @@ namespace arcus {
 	, hp(_hp)
 	{}
 
-	const std::string Corporeal::getSkinColor() const {
+	std::string Corporeal::getSkinColor() const {
 		return skinColor;
 	}
 
-	const int Corporeal::getStrength() const {
+	int Corporeal::getStrength() const {
 		return strength;
 	}
 
-	const int Corporeal::getAgility() const {
+	int Corporeal::getAgility() const {
 		return agility;
 	}
 
-	const int Corporeal::getIntellect() const {
+	int Corporeal::getIntellect() const {
 		return intellect;
 	}
 
-	const int Corporeal::getHp() const {
+	int Corporeal::getHp() const {
 		return hp;
 	}
 
@@ -81,13 +81,13 @@ namespace arcus {
 	}
 
 	std::string Corporeal::attack(Corporeal& other) {
-		std::cout << "Corporeal.attack()" << std::endl;
+		//std::cout << "Corporeal.attack()" << std::endl;
 		int dmg = getDmg();
 		other.takeDmg(*this, dmg);
 		return attackString(other, dmg);
 	}
 
-	std::string Corporeal::attackString(Corporeal& other, int dmg) {
+	std::string Corporeal::attackString(Corporeal& other, int dmg) const{
 		std::ostringstream oss;
 		oss << "The " << getType() << " pummels " << other.getType() << " for " << dmg << " damage!"
 			<< "\n" << other.getType() << " has " << other.getHp() << "hp left!";
@@ -107,23 +107,23 @@ namespace arcus {
 	}
 
 	void Corporeal::die(Corporeal& other) {
-		std::cout << "Corporeal.die()" << std::endl;
+		//std::cout << "Corporeal.die()" << std::endl;
 		setAlive(false);
 	}
 
 	void Corporeal::consume(std::weak_ptr<Item> item) {
-		std::cout << "Corporeal.consume()" << std::endl;
+		//std::cout << "Corporeal.consume()" << std::endl;
 		//TODO
 	}
 
 	bool Corporeal::pick_up(std::weak_ptr<Item> item){
-		std::cout << "Corporeal.pick_up()" << std::endl;
+		//std::cout << "Corporeal.pick_up()" << std::endl;
 		inventory.push_back(item);
 		return true;
 	}
 
 	void Corporeal::drop(std::weak_ptr<Item> item){
-		std::cout << "Corporeal.drop()" << std::endl;
+		//std::cout << "Corporeal.drop()" << std::endl;
 		//TODO
 	}
 
@@ -132,7 +132,7 @@ namespace arcus {
 	}
 
 	std::string Corporeal::action(Actor& other) {
-		std::cout << "Corporeal.action()" << std::endl;
+		//std::cout << "Corporeal.action()" << std::endl;
 		Corporeal* otherCorp =  dynamic_cast<Corporeal*>(&other);
       	if(otherCorp){
 			if(!isAlive())

@@ -20,12 +20,12 @@ namespace arcus {
 			const std::vector<Dialog> _dialogs, const std::string _skinColor, const int _strength,
 			const int _agility, const int _intellect, const int _hp);
 
-		const std::string getSkinColor() const;
-		const std::vector<std::weak_ptr<Item>> getInventory() const;
-		const int getStrength() const;
-		const int getAgility() const;
-		const int getIntellect() const;
-		const int getHp() const;
+		std::string getSkinColor() const;
+		std::vector<std::weak_ptr<Item>> getInventory() const;
+		int getStrength() const;
+		int getAgility() const;
+		int getIntellect() const;
+		int getHp() const;
 
 		void setSkinColor(std::string);
 		void setInventory(std::vector<std::weak_ptr<Item>>);
@@ -35,7 +35,7 @@ namespace arcus {
 		void setHp(int);
 
 		std::string attack(Corporeal&);
-		virtual std::string attackString(Corporeal&, int);
+		virtual std::string attackString(Corporeal&, int) const;
 		virtual int getDmg();
 		void takeDmg(Corporeal&, int);
 		virtual void die(Corporeal&);
