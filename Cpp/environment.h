@@ -23,11 +23,10 @@ namespace arcus {
 			const std::map<Direction_t, std::weak_ptr<Environment>> neighbors, const std::vector<std::weak_ptr<Item>> items);
 
 
-		const std::vector<Direction_t> getDirections() const;
-		std::shared_ptr<Environment> getNeighbor(Direction_t);
+		std::vector<Direction_t> getDirections() const;
+		std::shared_ptr<Environment> getNeighbor(const Direction_t);
 		std::vector<std::weak_ptr<Actor>> getNpcs() const;
-		std::string getStatus();
-		const std::string getDescription() const;
+		std::string getDescription() const;
 
 		void enter(std::weak_ptr<Actor>);
 		void leave(std::weak_ptr<Actor>);
@@ -42,7 +41,7 @@ namespace arcus {
 
 		bool isDirectionOpen(Direction_t) const;
 
-		virtual void affect(std::weak_ptr<Actor>);
+		virtual void affect(std::weak_ptr<Actor>) const;
 		virtual std::string present() const;
 		//const std::vector<std::weak_ptr<Item>>::iterator iteratorOf(const std::weak_ptr<Item>);
 	private:
@@ -51,7 +50,6 @@ namespace arcus {
 		std::map<Direction_t, std::weak_ptr<Environment>> neighbors;
 		std::vector<std::weak_ptr<Item>> items;
 		std::vector<std::weak_ptr<Actor>> npcs;
-		std::string status;
 	};
 
 

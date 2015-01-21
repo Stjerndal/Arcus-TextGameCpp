@@ -23,7 +23,6 @@ namespace arcus {
 	, neighbors()
 	, items()
 	, npcs()
-	, status()
 	{}
 
 
@@ -33,7 +32,6 @@ namespace arcus {
 	, neighbors()
 	, items()
 	, npcs()
-	, status()
 	{}
 
 	Environment::Environment(const std::string _description, const std::vector<std::weak_ptr<Item>> _items)
@@ -42,7 +40,6 @@ namespace arcus {
 	, neighbors()
 	, items(_items)
 	, npcs()
-	, status()
 	{}
 
 	Environment::Environment(const std::string _description, const std::vector<Direction_t> _directions,
@@ -52,10 +49,9 @@ namespace arcus {
 	, neighbors(_neighbors)
 	, items(_items)
 	, npcs()
-	, status()
 	{}
 
-	const std::vector<Direction_t> Environment::getDirections() const {
+	std::vector<Direction_t> Environment::getDirections() const {
 		return directions;
 	}
 
@@ -67,15 +63,10 @@ namespace arcus {
 		return npcs;
 	}
 	
-	const std::string Environment::getDescription() const {
+	std::string Environment::getDescription() const {
 		return description;
 	}
 	
-	std::string Environment::getStatus() {
-		std::string oldStatus = status;
-		status = "";
-		return oldStatus;
-	}
 
 	void Environment::enter(std::weak_ptr<Actor> actor) {
 		std::cout << "Environment.enter(" << actor.lock()->getName() << ")" << std::endl;
@@ -179,7 +170,7 @@ namespace arcus {
 		return presentation;
 	}
 
-	void Environment::affect(std::weak_ptr<Actor> actor) {
+	void Environment::affect(std::weak_ptr<Actor> actor) const{
 		std::cout << "Environment.affect(" << actor.lock()->getName() << ")" << std::endl;
 	}
 	
