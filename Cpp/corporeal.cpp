@@ -94,7 +94,7 @@ namespace arcus {
 		return oss.str();
 	}
 
-	int Corporeal::getDmg() {
+	int Corporeal::getDmg() const {
 		return ((strength * 3) + agility )/ 2;
 	}
 

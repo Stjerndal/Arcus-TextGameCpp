@@ -24,7 +24,7 @@ namespace arcus {
 		virtual void talk_to(Actor&);
 
 		virtual std::string attackString(Corporeal&, int) const;
-		virtual int getDmg();
+		virtual int getDmg() const;
 		virtual void die(Corporeal&);
 
 	/*	const int getCharisma() const;

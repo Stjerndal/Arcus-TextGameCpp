@@ -36,7 +36,7 @@ namespace arcus {
 
 		std::string attack(Corporeal&);
 		virtual std::string attackString(Corporeal&, int) const;
-		virtual int getDmg();
+		virtual int getDmg() const;
 		void takeDmg(Corporeal&, int);
 		virtual void die(Corporeal&);
 		virtual void consume(std::weak_ptr<Item>);

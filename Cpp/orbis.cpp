@@ -41,7 +41,7 @@ namespace arcus {
 		return oss.str();
 	}
 
-	int Orbis::getDmg() {
+	int Orbis::getDmg() const {
 		return (getStrength() + (getAgility()*2) + getIntellect())/ 2;
 	}
 

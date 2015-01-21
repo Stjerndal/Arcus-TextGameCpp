@@ -35,7 +35,7 @@ namespace arcus {
 		return oss.str();
 	}
 
-	int Humanoid::getDmg() {
+	int Humanoid::getDmg() const {
 		return ((getStrength() * 2) + getAgility() + getIntellect())/ 2;
 	}
 

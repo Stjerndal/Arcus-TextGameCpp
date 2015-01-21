@@ -43,7 +43,7 @@ namespace arcus {
 		return oss.str();
 	}
 
-	int Robot::getDmg() {
+	int Robot::getDmg() const {
 		return (getStrength()*2) + (getAgility()/2) + (getIntellect()*2)/ 2;
 	}
 
