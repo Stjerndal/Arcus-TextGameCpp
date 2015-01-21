@@ -21,7 +21,6 @@ namespace arcus {
 		, color(_color)
 		, description(_desc)
 		, hp(INT_MAX)
-		, status()
 		{}
 
 		Item::Item(const std::string _name, const int _weight, const int _volume,
@@ -33,7 +32,6 @@ namespace arcus {
 		, color(_color)
 		, description(_desc)
 		, hp(_hp)
-		, status()
 		{}
 
 		bool Item::operator==(Item const& item) const {
@@ -44,39 +42,34 @@ namespace arcus {
 			return !((*this) == item);
 		}
 
-		const std::string Item::getName() const {
+		std::string Item::getName() const {
 			return name;
 		}
 
-		const int Item::getWeight() const {
+		int Item::getWeight() const {
 			return weight;
 		}
 
-		const int Item::getVolume() const {
+		int Item::getVolume() const {
 			return volume;
 		}
 
-		const int Item::getPrice() const {
+		int Item::getPrice() const {
 			return price;
 		}
 		
-		const std::string Item::getColor() const {
+		std::string Item::getColor() const {
 			return color;
 		}
 		
-		const std::string Item::getDescription() const {
+		std::string Item::getDescription() const {
 			return description;
 		}
 		
-		const int Item::getHp() const {
+		int Item::getHp() const {
 			return hp;
 		}
 		
-		std::string Item::getStatus() {
-			std::string oldStatus = status;
-			status = "";
-			return oldStatus;
-		}
 
 		void Item::setName(std::string _name) {
 			name = _name;

@@ -15,14 +15,13 @@ namespace arcus {
 		bool operator!=(Item const& item) const;
 
 
-		const std::string getName() const;
-		const int getWeight() const;
-		const int getVolume() const;
-		const int getPrice() const;
-		const std::string getColor() const;
-		const std::string getDescription() const;
-		const int getHp() const;
-		std::string getStatus();
+		std::string getName() const;
+		int getWeight() const;
+		int getVolume() const;
+		int getPrice() const;
+		std::string getColor() const;
+		std::string getDescription() const;
+		int getHp() const;
 
 		void setName(std::string);
 		void setHp(int);
@@ -35,7 +34,6 @@ namespace arcus {
 		std::string color;
 		std::string description;
 		int hp;
-		std::string status;
 	};
 
 }
