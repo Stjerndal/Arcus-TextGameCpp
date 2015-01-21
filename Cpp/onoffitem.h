@@ -7,9 +7,9 @@ namespace arcus {
 	**/
 	class OnOffItem {
 	public:
-		const bool getState() const;
+		bool getState() const;
 
-		virtual void setState(const bool);
+		virtual void setState(bool);
 
 		virtual void toggle();
 

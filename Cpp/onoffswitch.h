@@ -6,11 +6,11 @@
 namespace arcus {
 	class OnOffSwitch: public Technology {
 	public:
-		const OnOffItem getTarget() const;
-		const bool getState() const;
+		OnOffItem getTarget() const;
+		bool getState() const;
 
 		void setTarget(const OnOffItem );
-		void setState(const bool);
+		void setState(bool);
 		
 
 		void toggle();
