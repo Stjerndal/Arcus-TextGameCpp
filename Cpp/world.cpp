@@ -34,6 +34,12 @@ namespace arcus {
 
 
 	void World::start() {
+		UserInterface::present(std::string( 100, '\n' ));//visual effects(clear)
+		UserInterface::present("**************************\n");
+		UserInterface::present("Welcome to the game 'Arcus'!");
+		UserInterface::present("Your spaceship has crashed in a dark forest on a remote and foreign planet!");
+		UserInterface::present("In order fix the ship you need to find some fuel-cells.");
+		UserInterface::present("\n**************************");
 		curEnvironment = setupWorld();
 		running = 1;
 		while(running)
@@ -49,9 +55,11 @@ namespace arcus {
 
 		std::vector<std::string> input;
 		input = UserInterface::fetchInput();
+		UserInterface::present(std::string( 100, '\n' ));//visual effects(clear)
 		handleInput(input);
 		if(!player.isAlive())
 			gameOver();
+
 	}
 
 	std::string World::present() const{
@@ -59,51 +67,55 @@ namespace arcus {
 	}
 
 	bool World::handleInput(const std::vector<std::string>& input) {
-		if (input[0].compare(0,2,"go") == 0) { // GO
-			Direction_t dir = convertDir(input[1]);
-			if(dir != INVALID && curEnvironment->isDirectionOpen(dir)) {
-				player.go(dir);
-				curEnvironment = curEnvironment->getNeighbor(dir);
+		if(input.size() < 1 ) { //0 commands
+			return false;
+		} else if (input.size() < 2) {//1 command
+			if (input[0].compare(0,1,"q") == 0) { // QUIT
+				running = 0;
 				return true;
 			}
-		} else if (input[0].compare(0,4,"take") == 0) { // TAKE
-			std::weak_ptr<Item> item = curEnvironment->pick_up(input[1]);
-			if(item.lock() && player.pick_up(item)) {
-				UserInterface::present("Picked up " + input[1] + ".");
-				if(item.lock()->getName() == "Fuel-cells") {
-					gameWon();
+		} else { // 2 or more commands
+			if (input[0].compare(0,2,"go") == 0) { // GO
+				Direction_t dir = convertDir(input[1]);
+				if(dir != INVALID && curEnvironment->isDirectionOpen(dir)) {
+					player.go(dir);
+					curEnvironment = curEnvironment->getNeighbor(dir);
+					return true;
 				}
-				return true;
-			} else {
-				UserInterface::present("Can't pick up " + input[1] + ".");
-			}
-		} else if (input[0].compare(0,4,"talk") == 0) { // TALK
-			std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[1]).lock();
-			if(actor) {
-				if(actor->isAlive()) {
-					actor->talk_to(player);
-					if(actor->getAttitude() > 90) //angry!
-						UserInterface::present(actor->action(player)); // attack player!
+			} else if (input[0].compare(0,4,"take") == 0) { // TAKE
+				std::weak_ptr<Item> item = curEnvironment->pick_up(input[1]);
+				if(item.lock() && player.pick_up(item)) {
+					UserInterface::present("Picked up " + input[1] + ".");
+					if(item.lock()->getName() == "Fuel-cells") {
+						gameWon();
+					}
+					return true;
 				} else {
-					UserInterface::present(actor->getType() + " is dead.");
+					UserInterface::present("Can't pick up " + input[1] + ".");
 				}
-			} else {
-				UserInterface::present("Can't talk with " + input[1] + ".");
+			} else if (input[0].compare(0,4,"talk") == 0) { // TALK
+				std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[1]).lock();
+				if(actor) {
+					if(actor->isAlive()) {
+						actor->talk_to(player);
+						if(actor->getAttitude() > 90) //angry!
+							UserInterface::present(actor->action(player)); // attack player!
+					} else {
+						UserInterface::present(actor->getType() + " is dead.");
+					}
+				} else {
+					UserInterface::present("Can't talk with " + input[1] + ".");
+				}
+			} else if (input[0].compare(0,6,"attack") == 0) { // ATTACK
+				std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[1]).lock();
+				if(actor) {
+					UserInterface::present(player.action(*actor));
+					UserInterface::present(actor->action(player));
+				} else {
+					UserInterface::present("Can't attack " + input[1] + ".");
+				}
 			}
-		} else if (input[0].compare(0,6,"attack") == 0) { // ATTACK
-			std::shared_ptr<Actor> actor = curEnvironment->getNpcByType(input[1]).lock();
-			if(actor) {
-				UserInterface::present(player.action(*actor));
-				UserInterface::present(actor->action(player));
-			} else {
-				UserInterface::present("Can't attack " + input[1] + ".");
-			}
-		}
 
-
-
-		 else if (input[0].compare(0,1,"q") == 0) { // QUIT
-			running = 0;
 		}
 
 		return false;
