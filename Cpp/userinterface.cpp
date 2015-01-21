@@ -23,12 +23,12 @@ int UserInterface::fetchNumber(){
     while(1) {
             input = UserInterface::fetchInput();
             if(input.size() < 1) {
-                std::cerr << "insize" << std::endl;
+                //std::cerr << "insize" << std::endl;
                 continue;
             }
             std::stringstream convert(input[0]);
             if(!(convert >> number)) {
-                std::cerr << "numconv" << std::endl;
+                //std::cerr << "numconv" << std::endl;
                 continue;
             }
             
